@@ -7,14 +7,12 @@ from dataclasses import dataclass
 class Absorption(DataReader, Plotter):
     """class to plot and analyze steady-state absorption spectroscopy data"""
 
-    # wether to plot on a wavenumber scale 
-    wn : bool = True
     # concentration list in M
     c : list = None
     # pathlength list in cm 
     l : list = None
-    # whether data is FTIR
-    IR : bool = False
+    # provide extinction coefficient at certain wavelength [(eps_at_x, x)]
+    eps : list = None
 
     # automatically call read_data method from parent datareader after init
     def __post_init__(self):
@@ -71,7 +69,77 @@ class Absorption(DataReader, Plotter):
         print(r'Radiative lifetime $\tau_\text{rad} = %.3g\,\text{ns}'%(tau_rad))
         print("")
 
+    def find(self, file_index, where=None):
+        """
+        method to get absorbance at specified x-value (where) or at maximum (max==True)  (and extinction coefficient)
+        """
+        from pyrene.standard.misc import find_index
+        if not where:
+            # find wavelength at maximum absorbance
+            Afound = np.max(self.y[file_index])
+            xfound = self.x[file_index][self.y[file_index] == np.max(self.y[file_index])][0]
+        else:
+            Afound = self.y[file_index][find_index(self.x[file_index], where)]
+            xfound = self.x[file_index][find_index(self.x[file_index], where)]
+        if xfound>100:
+            wlfound = xfound
+            wnfound = 1e4/wlfound
+        else:
+            wnfound = xfound
+            wlfound = 1e4/xfound
+        if self.c:
+            eps = Afound 
+            print("")
+            print(r"%s --> \varepsilon_{\text{%.3g nm}} = \SI{%.3g}{\text{M}^{-1}\,\text{cm}^{-1}} at wl = %.4g nm / wn = %.4g kK"%(self.files[file_index], wlfound, eps, wlfound, wnfound))
+            print("")
+        else:
+            print("")
+            print("%s --> A = %.3g at wl = %.4g nm / wn = %.4g kK"%(self.files[file_index], Afound, wlfound, wnfound))
+            print("")
+    
+    def get_concentration(self, file_index) -> float:
+        """ 
+        to calculate concentration of solution
+        need to procvide eps = [ (eps_at_x_look, x_look) ] at intialization
+        """
+        from pyrene.standard.misc import find_index
+        x_look = self.eps[file_index][1]
+        conc = self.y[file_index][find_index(self.x[file_index], x_look)] / (self.eps[file_index][0] * self.l[file_index])
+        if 10**(-3) <= conc < 1:
+            print("%s -> c = %.3g mM"%(self.files[file_index], conc*10**3))
+        elif 10**(-6) <= conc < 10**(-3):
+            print("%s -> c = %.3g µM"%(self.files[file_index], conc*10**6))
+        else:
+            print("%s -> c = %.3g M"%(self.files[file_index], conc))
+        return conc
+
+    def plot_diff(self, file1, file2, scale=False):
+        """ 
+        calculate and plot the difference spectrum between two files
+        """
+        x = self.x[file1]
+        A1 = self.y[file1]
+        A2 = self.y[file2]
+
+        # interploate if needed
+        if len(A1)!=len(A2):
+            import numpy as np 
+            if len(A1)>len(A2):
+                x = self.x[file2]
+                A1 = np.interp(x, self.x[file1], A1)
+            else:
+                x = self.x[file1]
+                A2 = np.interp(x, self.x[file2], A2)  
+
+        if scale!=False:
+            dA = A1*scale[0] - A2*scale[1]
+            self.ax.plot(x, dA, '--k', label=r'Difference $\times$ %i'%(round(scale[1])))
+        else:
+            dA = A1 - A2
+            self.ax.plot(x, dA, '--k', label=r'Difference')
+            
     def show(self):
+        self.show_plot()
         plt.show()
 
 # test implementation

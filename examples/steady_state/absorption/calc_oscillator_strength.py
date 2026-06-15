@@ -12,7 +12,7 @@ a = Absorption(files=['abs_file1.csv'],
                 c=[conc], 
                 l=[pathlength],
                 baseline_at=[700],
-                labels=['your molecule'])
+                labels=['your molecule'], savefig='Strickler.png')
 
 # use calc_oscillator_strength(limits, n, nu0, file_index)
 # integration limits as list in nm

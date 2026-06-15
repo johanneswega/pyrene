@@ -146,7 +146,7 @@ a.calc_oscillator_strength([16, 22.5], 1.421, 18.8, 0)
 a.show()
 ```
 <p align="center">
-  <img src=".pics/Stickler.png" width="600">
+  <img src=".pics/Strickler.png" width="600">
 </p>
 
 This will automatically calculate and output the following useful properties: 

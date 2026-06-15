@@ -34,18 +34,6 @@ class Plotter():
         if not self.alphas: 
             self.alphas = [1 for _ in self.files]
 
-        # create secondary axis if wn 
-        if self.wn:
-            self.x = 1e4/self.x
-            self.ax2 = self.ax.secondary_xaxis(location='top', functions=(lambda x: 1e4/x, lambda x: 1e4/x))
-            self.ax.set_xlabel(r'$\tilde{\nu} / 10^3\,\text{cm}^{-1}$')
-            self.ax2.set_xlabel(r'$\lambda / \text{nm}$')
-            self.ax.invert_xaxis()
-        elif self.IR:
-            self.ax.set_xlabel(r'$\tilde{\nu} / 10^3\,\text{cm}^{-1}$')
-        else:
-            self.ax.set_xlabel(r'$\lambda / \text{nm}$')
-
         if self.zeroline:
             self.ax.axhline(y=0, color='k')
 
@@ -58,6 +46,24 @@ class Plotter():
                 self.ax.plot(self.x_ma[i], self.y_ma[i] - self.waterfall * i, self.marker[i], label=self.labels[i], color=self.colors[i])
             else:
                 self.ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], label=self.labels[i], color=self.colors[i], alpha=self.alphas[i])
+
+
+    def show_plot(self):
+        """creates axis labels etc. and saves figure"""
+
+        # create secondary axis if wn 
+        if self.wn:
+            self.ax2 = self.ax.secondary_xaxis(location='top', functions=(lambda x: 1e4/x, lambda x: 1e4/x))
+            self.ax.set_xlabel(r'$\tilde{\nu} / 10^3\,\text{cm}^{-1}$')
+            self.ax2.set_xlabel(r'$\lambda / \text{nm}$')
+            self.ax.invert_xaxis()
+        elif self.IR:
+            self.ax.set_xlabel(r'$\tilde{\nu} / \text{cm}^{-1}$')
+        else:
+            self.ax.set_xlabel(r'$\lambda / \text{nm}$')
+
+        if self.zeroline:
+            self.ax.axhline(y=0, color='k')
 
         if self.ylabel:
             self.ax.set_ylabel(self.ylabel)

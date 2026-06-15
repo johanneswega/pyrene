@@ -31,6 +31,12 @@ class DataReader():
     # whether 1 D or 2 D data 
     two_dim : bool = False
 
+    # whether to extract wavenumbers or wavelengths 
+    wn : bool = True
+
+    # whether data is IR or vis
+    IR : bool = False
+
     def read_data(self) -> None:
         """method to read/cut/normalize data"""
 
@@ -90,6 +96,10 @@ class DataReader():
                     self.y_ma[i] = moving_average(self.y[i], self.ma_npoints[i])
             else:
                 self.ma = [None for _ in self.files]
+
+            # invert if needed
+            if self.wn and not self.IR:
+                self.x[i] = 1e4/self.x[i]
 
     def __str__(self):
         return "class to read in files that contain data"
