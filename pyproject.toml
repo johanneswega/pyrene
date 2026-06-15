@@ -1,0 +1,11 @@
+[project]
+name = "pyrene"
+version = "0.1.0"
+description = "PYthon toolkit for Research in Excited-state dyNamics and spEctroscopy"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.11.0",
+    "numpy>=2.4.6",
+    "scipy>=1.17.1",
+]
