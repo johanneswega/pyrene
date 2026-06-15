@@ -11,3 +11,6 @@ wheels/
 
 # personal notes
 personal_notes.txt
+
+# stupid MacOS files
+.DS_Store
