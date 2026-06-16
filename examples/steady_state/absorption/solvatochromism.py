@@ -31,6 +31,7 @@ a = Absorption(
     files=files,
     figsize=(4, 8),
     waterfall=2,
+    fill=[True for _ in files],
     yticks=False,
     x_cuts=[(550, 800) for _ in files],
     baseline_at=[800 for _ in files],

@@ -42,7 +42,7 @@ def sort_with_respect(sort_after, *args):
     sorted_arrays = list(zip(*sorted_lists))  
 
     # Convert to numpy arrays and return
-    return tuple(np.array(arr) for arr in sorted_arrays)
+    return tuple(np.array(arr).tolist() for arr in sorted_arrays)
     
 # Moving Average Filter
 def moving_average(x, window_size):
@@ -52,15 +52,15 @@ def moving_average(x, window_size):
 # Function to calculate rainbow list
 def rainbow(liste, r=None):
     if r!=None:
-        return plt.cm.rainbow_r(np.linspace(0,1,len(liste)))
+        return plt.cm.rainbow_r(np.linspace(0,1,len(liste))).tolist()
     else:
-        return plt.cm.rainbow(np.linspace(0,1,len(liste)))
+        return plt.cm.rainbow(np.linspace(0,1,len(liste))).tolist()
     
 def gist_rainbow(liste, r=None):
     if r!=None:
-        return plt.cm.gist_rainbow_r(np.linspace(0,1,len(liste)))
+        return plt.cm.gist_rainbow_r(np.linspace(0,1,len(liste))).tolist()
     else:
-        return plt.cm.gist_rainbow(np.linspace(0,1,len(liste)))
+        return plt.cm.gist_rainbow(np.linspace(0,1,len(liste))).tolist()
     
 # function to find index
 def find_index(x, find):

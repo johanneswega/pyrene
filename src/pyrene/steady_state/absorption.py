@@ -14,8 +14,6 @@ class Absorption(DataReader, Plotter, DataExporter):
     l : list = None
     # provide extinction coefficient at certain wavelength [(eps_at_x, x)]
     eps : list = None
-    # whether to do plot
-    do_plot : bool = True
 
     # automatically call read_data method from parent datareader after init
     def __post_init__(self):
@@ -28,6 +26,8 @@ class Absorption(DataReader, Plotter, DataExporter):
         if not self.c:
             if not self.norm:
                 self.ylabel = 'absorbance'
+            if self.TDM:
+                self.ylabel = r'$\varepsilon(\tilde{\nu}) / \tilde{\nu}$'
             else:
                 self.ylabel = 'norm. absorbance'
         else:
@@ -36,7 +36,7 @@ class Absorption(DataReader, Plotter, DataExporter):
                 self.y[i] /= self.c[i] * self.l[i]
             self.ylabel = r'$\varepsilon / \text{M}^{-1}\,\text{cm}^{-1}$'
         
-        if self.do_plot:
+        if not self.slave:
             self.plot_data()
 
     def calc_oscillator_strength(self, limits, n, nu0, file_index):

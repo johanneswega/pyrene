@@ -28,6 +28,9 @@ class DataReader():
     baseline : list = None
     baseline_at : list = None
 
+    # whether to use TDM representation 
+    TDM : bool = False
+
     # whether 1 D or 2 D data 
     two_dim : bool = False
 
@@ -36,6 +39,10 @@ class DataReader():
 
     # whether data is IR or vis
     IR : bool = False
+
+    # if emission data 
+    em : bool = False
+    corr: bool = True
 
     def read_data(self) -> None:
         """method to read/cut/normalize data"""
@@ -116,6 +123,25 @@ class DataReader():
                 if self.baseline_at[i]:
                     self.y[i] -= self.y[i][find_index(self.x[i], self.baseline_at[i])] 
 
+            # photometric correction for emission spectra 
+            if self.em and self.corr:
+                import os
+                corr_file = np.loadtxt(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'FMax_lamp_20151217.txt'))
+                c = np.interp(self.x[i], corr_file[:,0], corr_file[:,1])
+                self.y[i] *= c
+
+            # convert intensity for emission I(nu) = I(lambda) * lambda^2
+            if self.em and self.wn:
+                self.y[i] *= self.x[i]**2
+
+            # apply transient dipole moment representation if wanted 
+            if self.TDM:
+                wn = 1/self.x[i]
+                if self.em: 
+                    self.y[i] /= wn**3
+                else:
+                    self.y[i] /= wn
+
             # normalize if needed
             if self.norm[i]:
                 if self.norm_at:
@@ -130,7 +156,7 @@ class DataReader():
                 self.x_ma[i] = moving_average(self.x[i], self.ma_npoints[i])
                 self.y_ma[i] = moving_average(self.y[i], self.ma_npoints[i])
 
-            # invert if needed
+            # convert to wavenumber if needed
             if self.wn and not self.IR:
                 self.x[i] = 1e4/self.x[i]
 

@@ -11,6 +11,10 @@ class Plotter():
     ylabel : str = None
     xlabel : str = None
     yticks : bool = True
+    yscale : str = 'linear'
+    xscale : str = 'linear'
+    ylim : list = None
+    xlim : list = None
     figsize : tuple = (8, 5)
     marker : list = None
     alphas : list = None
@@ -21,14 +25,26 @@ class Plotter():
     outside : bool = False
     fontsize : int = 10
     savefig : str = None
+    slave : bool = False
 
-    def plot_data(self):
+    def plot_data(self, master_ax=None):
         """creates figure and axis object"""
-        self.fig, self.ax = plt.subplots(1, 1, figsize=self.figsize)
+
+        # make own figure if master 
+        if not self.slave:
+            self.fig, self.ax = plt.subplots(1, 1, figsize=self.figsize)
+            ax = self.ax
+        # otherwise plot data in respective axis object of the experimental class
+        else:
+            ax = master_ax
 
         # create labels
         if not self.labels:
             self.labels = [r'%s'%(s[:s.find('.')]) for s in self.files]
+
+        # create fill
+        if not self.fill:
+            self.fill = [False for _ in self.files]
 
         # create colors
         if not self.colors:
@@ -44,17 +60,23 @@ class Plotter():
             self.alphas = [1 for _ in self.files]
 
         if self.zeroline:
-            self.ax.axhline(y=0, color='k')
+            ax.axhline(y=0, color='k')
 
         # loop through files and plot
         for i in range(len(self.files)):
             if self.ma[i]:
                 if self.wn:
                         self.x_ma[i] = 1e4/self.x_ma[i]
-                self.ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], color=self.colors[i], alpha=0.5)
-                self.ax.plot(self.x_ma[i], self.y_ma[i] - self.waterfall * i, self.marker[i], label=self.labels[i], color=self.colors[i])
+                if self.marker[i]:
+                    ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], color=self.colors[i], alpha=0.5)
+                    ax.plot(self.x_ma[i], self.y_ma[i] - self.waterfall * i, self.marker[i], label=self.labels[i], color=self.colors[i])
+                if self.fill[i]:
+                    ax.fill_between(self.x_ma[i], -self.waterfall * i, self.y_ma[i] - self.waterfall * i, alpha=0.1, color=self.colors[i])
             else:
-                self.ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], label=self.labels[i], color=self.colors[i], alpha=self.alphas[i])
+                if self.marker[i]:
+                    ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], label=self.labels[i], color=self.colors[i], alpha=self.alphas[i])
+                if self.fill[i]:
+                    ax.fill_between(self.x[i], -self.waterfall * i, self.y[i] - self.waterfall * i, alpha=0.1, color=self.colors[i])
 
 
     def show_plot(self):
@@ -82,6 +104,14 @@ class Plotter():
             self.ax.set_ylabel(self.ylabel)
         if self.xlabel:
             self.ax.set_xlabel(self.xlabel)  
+        if self.xlim:
+            self.ax.set_xlim(self.xlim)
+        if self.ylim:
+            self.ax.set_ylim(self.ylim)
+        if self.yscale:
+            self.ax.set_yscale(self.yscale)
+        if self.xscale:
+            self.ax.set_xscale(self.xscale)
         if not self.yticks: 
             self.ax.set_yticks([])  
         if self.outside:
