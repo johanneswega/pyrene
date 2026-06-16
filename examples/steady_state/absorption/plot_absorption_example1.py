@@ -5,7 +5,6 @@ a = Absorption(
     x_cuts=[(350, 800)],
     wn=True,
     colors=['r'],
-    norm=[True],
     labels=['your molecule'])
 
 a.show()

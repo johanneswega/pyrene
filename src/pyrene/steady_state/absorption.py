@@ -1,10 +1,11 @@
 from pyrene.standard.packages import *
 from pyrene.data_reader.read import DataReader
+from pyrene.data_reader.export import DataExporter
 from pyrene.plotter.plotter import Plotter
 from dataclasses import dataclass
 
 @dataclass
-class Absorption(DataReader, Plotter):
+class Absorption(DataReader, Plotter, DataExporter):
     """class to plot and analyze steady-state absorption spectroscopy data"""
 
     # concentration list in M

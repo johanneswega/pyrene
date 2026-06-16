@@ -26,6 +26,15 @@ class Plotter():
         """creates figure and axis object"""
         self.fig, self.ax = plt.subplots(1, 1, figsize=self.figsize)
 
+        # create labels
+        if not self.labels:
+            self.labels = [r'%s'%(s[:s.find('.')]) for s in self.files]
+
+        # create colors
+        if not self.colors:
+            from pyrene.standard.misc import rainbow
+            self.colors = rainbow(self.files)
+
         # create markers 
         if not self.marker: 
             self.marker = ['-' for _ in self.files]

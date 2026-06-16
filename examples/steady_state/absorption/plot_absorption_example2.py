@@ -8,4 +8,5 @@ a = Absorption(files=['Data/abs_file1.csv', 'Data/abs_file2.csv'],      # file n
              colors=['r', 'b'],                                         # colors for the files 
              labels=['molecule 1', 'molecule 2'],                       # labels for the files
              norm=[True, True])                                         # whether to normalize (optional)
+a.export()
 a.show()

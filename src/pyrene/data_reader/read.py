@@ -49,6 +49,23 @@ class DataReader():
             self.x_ma = np.empty(len(self.files), dtype=object)
             self.y_ma = np.empty(len(self.files), dtype=object)
 
+        ### standard values of not set ###
+        if self.x_cuts:
+            if len(self.x_cuts)==1:
+                self.x_cuts = [self.x_cuts[0] for _ in self.files]
+        if self.y_cuts:
+            if len(self.y_cuts)==1:
+                self.y_cuts = [self.y_cuts[0] for _ in self.files]
+        if self.norm:
+            if len(self.norm)==1:
+                self.norm = [self.norm[0] for _ in self.files]            
+        if not self.norm: 
+            self.norm = [False for _ in self.files]
+        if not self.ma: 
+            self.ma = [False for _ in self.files]
+        if self.ma and not self.ma_npoints:
+            self.ma_npoints = [5 for _ in self.files]
+
         ### loop through files ###
         for i in range(len(self.files)):
 
@@ -56,22 +73,32 @@ class DataReader():
             if self.two_dim:
                 ...
             else:
-                # normal csv file
-                if not self.IR:
-                    data = np.loadtxt(self.files[i], skiprows=self.skiprows, delimiter=self.delimiter, usecols=self.usecols)
-                    self.x[i] = data[:,0]
-                    self.y[i] = data[:,1]   
-                    # correct baseline
-                    if self.baseline:
-                        if self.baseline[i]:
-                            base = np.loadtxt(self.baseline[i], skiprows=self.skiprows, delimiter=self.delimiter, usecols=self.usecols) 
-                            self.y[i] -= base[:, 1] 
+                if not '.txt' in self.files[i]:
+                    # normal csv file
+                    if not self.IR:
+                        data = np.loadtxt(self.files[i], skiprows=self.skiprows, delimiter=self.delimiter, usecols=self.usecols)
+                        self.x[i] = data[:,0]
+                        self.y[i] = data[:,1]   
+                        # correct baseline
+                        if self.baseline:
+                            if self.baseline[i]:
+                                base = np.loadtxt(self.baseline[i], skiprows=self.skiprows, delimiter=self.delimiter, usecols=self.usecols) 
+                                self.y[i] -= base[:, 1] 
+                    else:
+                        # load FTIR file
+                        from brukeropus import read_opus
+                        opus_file = read_opus(self.files[i])
+                        self.x[i] = np.array(opus_file.a.x)
+                        self.y[i] = np.array(opus_file.a.y) 
                 else:
-                    # load FTIR file
-                    from brukeropus import read_opus
-                    opus_file = read_opus(self.files[i])
-                    self.x[i] = np.array(opus_file.a.x)
-                    self.y[i] = np.array(opus_file.a.y)                            
+                    # exported file
+                    data = np.loadtxt(self.files[i], skiprows=1, delimiter=',')
+                    if not self.IR:
+                        self.x[i] = data[:,0]
+                        self.y[i] = data[:,-1]    
+                    else:
+                        self.x[i] = data[:,1]
+                        self.y[i] = data[:,-1]                             
 
             # cut data if wanted
             if self.x_cuts:
@@ -90,7 +117,7 @@ class DataReader():
                     self.y[i] -= self.y[i][find_index(self.x[i], self.baseline_at[i])] 
 
             # normalize if needed
-            if self.norm:
+            if self.norm[i]:
                 if self.norm_at:
                     from pyrene.standard.misc import find_index
                     self.y[i] /= self.y[i][find_index(self.x[i], self.norm_at[i])]     
@@ -98,13 +125,10 @@ class DataReader():
                     self.y[i] /= np.max(self.y[i])  
 
             # calculate moving average if wanted 
-            if self.ma:
-                if self.ma[i]:
-                    from pyrene.standard.misc import moving_average
-                    self.x_ma[i] = moving_average(self.x[i], self.ma_npoints[i])
-                    self.y_ma[i] = moving_average(self.y[i], self.ma_npoints[i])
-            else:
-                self.ma = [None for _ in self.files]
+            if self.ma[i]:
+                from pyrene.standard.misc import moving_average
+                self.x_ma[i] = moving_average(self.x[i], self.ma_npoints[i])
+                self.y_ma[i] = moving_average(self.y[i], self.ma_npoints[i])
 
             # invert if needed
             if self.wn and not self.IR:
