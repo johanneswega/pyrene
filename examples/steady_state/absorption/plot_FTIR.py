@@ -1,11 +1,11 @@
 from pyrene.steady_state import Absorption
 
 a = Absorption(
-    files=['Data/abs_file1.csv'],
-    x_cuts=[(350, 800)],
-    wn=True,
+    files=['Data/FTIR_2.0'],
+    x_cuts=[(1125, 1275)],
+    baseline_at=[(1275)],
+    IR=True,
     colors=['r'],
-    norm=[True],
     labels=['your molecule'])
 
 a.show()

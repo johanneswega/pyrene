@@ -48,7 +48,7 @@ In short: `uv` makes Python project setup faster, more reliable, and fully repro
 ### Installation (recommended: uv workflow)
 
 ```bash
-git clone https://github.com/johanneswega/pyrene
+git clone https://github.com/johanneswega/pyrene.git
 cd pyrene
 uv sync
 ```
@@ -68,7 +68,7 @@ source .venv/bin/activate
 ### Alternative installation (no uv required)
 
 ```bash
-git clone https://github.com/johanneswega/pyrene
+git clone https://github.com/johanneswega/pyrene.git
 cd pyrene
 
 # use your favorite tool to create a venv

@@ -12,11 +12,8 @@ a = Absorption(files=['Data/abs_file1.csv'],
                 c=[conc], 
                 l=[pathlength],
                 baseline_at=[700],
-                labels=['your molecule'], savefig='Strickler.png')
+                labels=['your molecule'])
 
-# use calc_oscillator_strength(limits, n, nu0, file_index)
-# integration limits as list in nm
-# refractive index 
-# center frequency in kk
-a.calc_oscillator_strength([16, 22.5], 1.421, 18.8, 0)
+a.plot_calculated_spectrum(logfile='Data/Gaussian_output_TDDFT.log', cuts=[15, 40], fwhm=2, norm=False,
+                           shift=-4, color='gray', label='TD-DFT B3YLP-def2SVP')
 a.show()

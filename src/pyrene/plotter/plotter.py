@@ -52,7 +52,7 @@ class Plotter():
         """creates axis labels etc. and saves figure"""
 
         # create secondary axis if wn 
-        if self.wn:
+        if self.wn and not self.IR:
             self.ax2 = self.ax.secondary_xaxis(location='top', functions=(lambda x: 1e4/x, lambda x: 1e4/x))
             self.ax.set_xlabel(r'$\tilde{\nu} / 10^3\,\text{cm}^{-1}$')
             self.ax2.set_xlabel(r'$\lambda / \text{nm}$')
@@ -63,7 +63,11 @@ class Plotter():
             self.ax.set_xlabel(r'$\lambda / \text{nm}$')
 
         if self.zeroline:
-            self.ax.axhline(y=0, color='k')
+            if self.waterfall:
+                for i in range(len(self.files)):
+                    self.ax.axhline(y=-self.waterfall*i, color='k', alpha=0.5)
+            else:
+                self.ax.axhline(y=0, color='k')
 
         if self.ylabel:
             self.ax.set_ylabel(self.ylabel)

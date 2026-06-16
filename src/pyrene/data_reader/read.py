@@ -56,13 +56,22 @@ class DataReader():
             if self.two_dim:
                 ...
             else:
-                data = np.loadtxt(self.files[i], skiprows=self.skiprows, delimiter=self.delimiter, usecols=self.usecols)
-                self.x[i] = data[:,0]
-                self.y[i] = data[:,1]   
-                if self.baseline:
-                    if self.baseline[i]:
-                        base = np.loadtxt(self.baseline[i], skiprows=self.skiprows, delimiter=self.delimiter, usecols=self.usecols) 
-                        self.y[i] -= base[:, 1]         
+                # normal csv file
+                if not self.IR:
+                    data = np.loadtxt(self.files[i], skiprows=self.skiprows, delimiter=self.delimiter, usecols=self.usecols)
+                    self.x[i] = data[:,0]
+                    self.y[i] = data[:,1]   
+                    # correct baseline
+                    if self.baseline:
+                        if self.baseline[i]:
+                            base = np.loadtxt(self.baseline[i], skiprows=self.skiprows, delimiter=self.delimiter, usecols=self.usecols) 
+                            self.y[i] -= base[:, 1] 
+                else:
+                    # load FTIR file
+                    from brukeropus import read_opus
+                    opus_file = read_opus(self.files[i])
+                    self.x[i] = np.array(opus_file.a.x)
+                    self.y[i] = np.array(opus_file.a.y)                            
 
             # cut data if wanted
             if self.x_cuts:

@@ -5,6 +5,8 @@ description = "PYthon toolkit for Research in Excited-state dyNamics and spEctro
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "brukeropus>=1.4.3",
+    "cclib>=1.8.1",
     "matplotlib>=3.11.0",
     "numpy>=2.4.6",
     "scipy>=1.17.1",
