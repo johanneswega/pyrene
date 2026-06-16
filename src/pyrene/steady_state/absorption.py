@@ -39,6 +39,9 @@ class Absorption(DataReader, Plotter, DataExporter):
         if not self.slave:
             self.plot_data()
 
+        # for export 
+        self.abs_spec = True
+
     def calc_oscillator_strength(self, limits, n, nu0, file_index):
         """ 
         method to calculate oscillator strength and krad
@@ -210,36 +213,16 @@ class Absorption(DataReader, Plotter, DataExporter):
 
     def solvchrom(self, lim=None, save=False):
         """method to plot absorption solvatochromism"""
-        from pyrene.standard.solvents import solvent_dic
-        fig1, ax1 = plt.subplots(1,1,figsize=(5, 3.5))
-        fig2, ax2 = plt.subplots(1,1,figsize=(5, 3.5))
-        fig3, ax3 = plt.subplots(1,1,figsize=(5, 3.5))
-        for i in range(len(self.files)):
-            n = solvent_dic[self.labels[i]][0]
-            er = solvent_dic[self.labels[i]][1]
-            fe = (2*(er - 1)/(2*er+1))
-            fn = (2*(n**2 - 1)/(2*n**2+1))
-            df = fe - fn
-            ax1.plot(df, self.x[i][self.y[i]==np.max(self.y[i])], 'o', color=self.colors[i])
-            ax2.plot(fe, self.x[i][self.y[i]==np.max(self.y[i])], 'o', color=self.colors[i])
-            ax3.plot(fn, self.x[i][self.y[i]==np.max(self.y[i])], 'o', color=self.colors[i])
-        ax1.set_ylabel(r'$\Tilde{\nu}_{\text{max, abs}} / 10^3$ cm$^{-1}$')
-        ax2.set_ylabel(r'$\Tilde{\nu}_{\text{max, abs}} / 10^3$ cm$^{-1}$')
-        ax3.set_ylabel(r'$\Tilde{\nu}_{\text{max, abs}} / 10^3$ cm$^{-1}$')
-        ax1.set_xlabel(r'$\Delta f = f(\varepsilon_r) - f(n^2)$')
-        ax2.set_xlabel(r'$f(\varepsilon_r)$')
-        ax3.set_xlabel(r'$f(n^2)$')
-        if lim!=None:
-            ax1.set_ylim(lim)
-            ax2.set_ylim(lim)
-            ax3.set_ylim(lim)
-        fig1.tight_layout()
-        fig2.tight_layout()
-        fig3.tight_layout()
-        if save!=False:
-            fig1.savefig('df.svg', transparent=True)
-            fig2.savefig('f_epsr.svg', transparent=True)
-            fig3.savefig('f_n2.svg', transparent=True)
+        from pyrene.standard.figures import solvchrom_figures
+        
+        # get wavenumber at maxima
+        wns = np.array([self.x[i][self.y[i]==np.max(self.y[i])] for i in range(len(self.files))])
+
+        # plot and get solvent parameters
+        n, er, fe, fn, df = solvchrom_figures(wns, self.labels, self.colors, label='abs', 
+                                              stokes=False, lim=lim, save=save)
+        
+        return wns, n, er, fe, fn, df
 
     def epsilon_regression(self, M, m, Vstock, Vcuv, Vadd, l, wl):
         """

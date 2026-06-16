@@ -102,7 +102,7 @@ class DataReader():
                     data = np.loadtxt(self.files[i], skiprows=1, delimiter=',')
                     if not self.IR:
                         self.x[i] = data[:,0]
-                        self.y[i] = data[:,-1]    
+                        self.y[i] = data[:,2]                       
                     else:
                         self.x[i] = data[:,1]
                         self.y[i] = data[:,-1]                             
@@ -124,7 +124,7 @@ class DataReader():
                     self.y[i] -= self.y[i][find_index(self.x[i], self.baseline_at[i])] 
 
             # photometric correction for emission spectra 
-            if self.em and self.corr:
+            if self.em and self.corr and not '.txt' in self.files[i]:
                 import os
                 corr_file = np.loadtxt(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'FMax_lamp_20151217.txt'))
                 c = np.interp(self.x[i], corr_file[:,0], corr_file[:,1])

@@ -48,3 +48,41 @@ def figure_contour(t, wl, dA, scale, figsize=(8,5), experiment='femto',
     if ylim!=None:
         ax.set_ylim(ylim)
     return fig, ax
+
+def solvchrom_figures(wns, solvs, cols, label='Stokes', stokes=False, lim=None, save=False):
+    """method to make typical solvatochromism correlation figures"""
+    from pyrene.standard.solvents import solvent_dic
+    fig1, ax1 = plt.subplots(1,1,figsize=(5, 3.5))
+    fig2, ax2 = plt.subplots(1,1,figsize=(5, 3.5))
+    fig3, ax3 = plt.subplots(1,1,figsize=(5, 3.5))
+    for i in range(len(solvs)):
+        n = solvent_dic[solvs[i]][0]
+        er = solvent_dic[solvs[i]][1]
+        fe = (2*(er - 1)/(2*er+1))
+        fn = (2*(n**2 - 1)/(2*n**2+1))
+        df = fe - fn
+        ax1.plot(df, wns[i], 'o', color=cols[i])
+        ax2.plot(fe, wns[i], 'o', color=cols[i])
+        ax3.plot(fn, wns[i], 'o', color=cols[i])
+    if not stokes:
+        text = r'$\Tilde{\nu}_{\text{max, %s}} / 10^3$ cm$^{-1}$'%(label)
+    else:
+        text = r'$\Delta \Tilde{\nu}_{\text{Stokes}} /$ cm$^{-1}$'
+    ax1.set_ylabel(text)
+    ax2.set_ylabel(text)
+    ax3.set_ylabel(text)
+    ax1.set_xlabel(r'$\Delta f = f(\varepsilon_r) - f(n^2)$')
+    ax2.set_xlabel(r'$f(\varepsilon_r)$')
+    ax3.set_xlabel(r'$f(n^2)$')
+    if lim!=None:
+        ax1.set_ylim(lim)
+        ax2.set_ylim(lim)
+        ax3.set_ylim(lim)
+    fig1.tight_layout()
+    fig2.tight_layout()
+    fig3.tight_layout()
+    if save!=False:
+        fig1.savefig('%s_df.svg'%label, transparent=True)
+        fig2.savefig('%s_f_epsr.svg'%label, transparent=True)
+        fig3.savefig('%s_f_n2.svg'%label, transparent=True)
+    return n, er, fe, fn, df
