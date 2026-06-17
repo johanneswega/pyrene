@@ -27,8 +27,17 @@ class Plotter():
     savefig : str = None
     slave : bool = False
     steady_state : list = None
+    contour : bool = None
+    scale : list = None
+    cmap : list = None
+    cbar : list = None
+    white : list = None
+    extend : bool = False
+    nlevels : list = None
+    lines : list = None
+    titles : list = None
 
-    def plot_data(self, master_ax=None):
+    def plot_data(self, master_ax=None, contour_index=0):
         """creates figure and axis object"""
 
         # make own figure if master 
@@ -59,30 +68,100 @@ class Plotter():
         # create markers 
         if not self.alphas: 
             self.alphas = [1 for _ in self.files]
-
+            
+        # put zeroline through axis
         if self.zeroline:
             ax.axhline(y=0, color='k')
 
-        # loop through files and plot
-        for i in range(len(self.files)):
-            if self.ma[i]:
-                if self.wn:
-                        self.x_ma[i] = 1e4/self.x_ma[i]
-                if self.marker[i]:
-                    ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], color=self.colors[i], alpha=0.5)
-                    ax.plot(self.x_ma[i], self.y_ma[i] - self.waterfall * i, self.marker[i], label=self.labels[i], color=self.colors[i])
-                if self.fill[i]:
-                    ax.fill_between(self.x_ma[i], -self.waterfall * i, self.y_ma[i] - self.waterfall * i, alpha=0.1, color=self.colors[i])
-            else:
-                if self.marker[i]:
-                    ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], label=self.labels[i], color=self.colors[i], alpha=self.alphas[i])
-                if self.fill[i]:
-                    ax.fill_between(self.x[i], -self.waterfall * i, self.y[i] - self.waterfall * i, alpha=0.1, color=self.colors[i])
+        # normal x vs. y plot
+        if not self.contour:
+            # loop through files and plot
+            for i in range(len(self.files)):
+                if self.ma[i]:
+                    if self.wn:
+                            self.x_ma[i] = 1e4/self.x_ma[i]
+                    if self.marker[i]:
+                        ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], color=self.colors[i], alpha=0.5)
+                        ax.plot(self.x_ma[i], self.y_ma[i] - self.waterfall * i, self.marker[i], label=self.labels[i], color=self.colors[i])
+                    if self.fill[i]:
+                        ax.fill_between(self.x_ma[i], -self.waterfall * i, self.y_ma[i] - self.waterfall * i, alpha=0.1, color=self.colors[i])
+                else:
+                    if self.marker[i]:
+                        ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], label=self.labels[i], color=self.colors[i], alpha=self.alphas[i])
+                    if self.fill[i]:
+                        ax.fill_between(self.x[i], -self.waterfall * i, self.y[i] - self.waterfall * i, alpha=0.1, color=self.colors[i])
+
+        # contour x vs. y vs. z plot
+        if self.contour:
+            levels = np.linspace(self.scale[contour_index][0], self.scale[contour_index][1], self.nlevels[contour_index])
+            cmap = plt.get_cmap(self.cmap[contour_index])
+            colors = cmap(np.linspace(0, 1, self.nlevels[contour_index]))
+            if self.white[contour_index]:
+                nwhite = self.white[contour_index]
+                mid = len(colors) // 2
+                colors[mid - nwhite : mid + nwhite + 1] = np.nan
+            if self.lines[contour_index]:
+                if self.white[contour_index]:
+                    line_levels = np.concatenate([levels[:mid-nwhite],levels[mid+nwhite+1:]])
+                    ax.contour(self.x[contour_index], self.y[contour_index], self.z[contour_index], levels=line_levels, linewidths=0.5, alpha=0.2, linestyles='-', colors='k')
+                else:
+                    ax.contour(self.x[contour_index], self.y[contour_index], self.z[contour_index], levels=levels, linewidths=0.5, alpha=0.2, linestyles='-', colors='k')                    
+            D = ax.contourf(self.x[contour_index], self.y[contour_index], self.z[contour_index], levels=levels, colors=colors, extend=self.extend[contour_index])
+            D.set_rasterized(True)
+            if self.cbar[contour_index]:
+                cbar = plt.colorbar(D, ax=ax)
+                cbar.set_label(self.zlabel)
+                cbar.set_ticks([self.scale[contour_index][0], 0, self.scale[contour_index][1]])  
 
         # plot steady state spectra
-        if self.steady_state:
-            self.plot_steady_state(ax)
+        if not self.contour:
+            if self.steady_state:
+                self.plot_steady_state(ax)
 
+    def set_contour_plot_settings(self):
+        """ method to define standard arguments for contour plot """ 
+        # set standard scale
+        if not self.scale:
+            self.scale = [(-20, 20) for _ in self.files]
+        else:
+            if len(self.scale)==1:
+                self.scale = [self.scale[0] for _ in self.files]
+        # set standard colormap
+        if not self.cmap:
+            self.cmap = ['RdBu_r' for _ in self.files]
+        else:
+            if len(self.cmap)==1:
+                self.cmap = [self.cmap[0] for _ in self.files]
+        # set standard number of contours
+        if not self.nlevels:
+            self.nlevels = [41 for _ in self.files]
+        else:
+            if len(self.nlevels)==1:
+                self.nlevels = [self.nlevels[0] for _ in self.files]
+        # set standard for plotting cbars
+        if not self.cbar:
+            self.cbar = [True for _ in self.files]
+        else:
+            if len(self.cbar)==1:
+                self.cbar = [self.cbar[0] for _ in self.files]
+        # set standard for contour extend
+        if not self.extend:
+            self.extend = ['neither' for _ in self.files]
+        else:
+            if len(self.extend)==1:
+                self.extend = [self.extend[0] for _ in self.files]
+        # whether to plot lines in contour of nor
+        if not self.lines:
+            self.lines = [False for _ in self.files]
+        else:
+            if len(self.lines)==1:
+                self.lines = [self.lines[0] for _ in self.files]
+        # whether to make some contours white
+        if not self.white:
+            self.white = [False for _ in self.files]
+        else:
+            if len(self.white)==1:
+                self.white = [self.white[0] for _ in self.files]
 
     def plot_steady_state(self, ax):
         """method to plot exported steady state spectra on axis object"""
@@ -146,11 +225,12 @@ class Plotter():
         if self.xscale:
             ax.set_xscale(self.xscale)
         if not self.yticks: 
-            ax.set_yticks([])  
-        if self.outside:
-            ax.legend(loc='center left', bbox_to_anchor=(1, 0.5), fontsize=self.fontsize)
-        else:
-            ax.legend()
+            ax.set_yticks([])
+        if not self.contour:  
+            if self.outside:
+                ax.legend(loc='center left', bbox_to_anchor=(1, 0.5), fontsize=self.fontsize)
+            else:
+                ax.legend()
 
     def get_delay_labels(self, delays, title=False):
         """method to compute delay labels"""

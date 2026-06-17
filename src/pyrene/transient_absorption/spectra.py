@@ -15,8 +15,6 @@ class Spectra(DataReader, Plotter, DataExporter):
     # e.g. steady_state_ax = [[s1, s2], [s3]]
     # s1 and s2 will be plotted in ax[0] while s3 will be plotted in ax[1]
     steady_state_ax : list = None
-    # subplot tiltes
-    titles : list = None
 
     # automatically call read_data method from parent datareader after init
     def __post_init__(self):

@@ -1,3 +1,4 @@
 from .spectra import Spectra
+from .contour import Contour
 
-__all__ = ["Spectra"]
+__all__ = ["Spectra", "Contour"]

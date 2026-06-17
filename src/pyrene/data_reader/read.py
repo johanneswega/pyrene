@@ -64,7 +64,7 @@ class DataReader():
             self.x_ma = np.empty(len(self.files), dtype=object)
             self.y_ma = np.empty(len(self.files), dtype=object)
 
-        ### standard values of not set ###
+        ### define standard values if not set ###
         if self.x_cuts:
             if len(self.x_cuts)==1:
                 self.x_cuts = [self.x_cuts[0] for _ in self.files]
@@ -73,7 +73,10 @@ class DataReader():
                 self.y_cuts = [self.y_cuts[0] for _ in self.files]
         if self.norm:
             if len(self.norm)==1:
-                self.norm = [self.norm[0] for _ in self.files]            
+                self.norm = [self.norm[0] for _ in self.files]    
+        if self.norm_at:
+            if len(self.norm_at)==1:
+                self.norm_at = [self.norm_at[0] for _ in self.files]         
         if not self.norm: 
             self.norm = [False for _ in self.files]
         if not self.min_norm:
@@ -95,11 +98,13 @@ class DataReader():
 
         ### loop through files ###
         for i in range(len(self.files)):
-
             ### 2D Data = TA data ###
             if self.two_dim:
                 if '.npy' in self.files[i]:
                     t, wl, dA = np.load(self.files[i], allow_pickle=True)
+                if '.pdat' in self.files[i]:
+                    from pyrene.standard.misc import load_pdat
+                    t, wl, dA = load_pdat(self.files[i])
                 # remove scatter 
                 if self.scatter[i]:
                     dA[:, (wl >= self.scatter[i][0]) & (wl <= self.scatter[i][1])] = np.nan  
@@ -108,6 +113,9 @@ class DataReader():
                     from pyrene.standard.misc import find_index
                     self.y[i] = dA[find_index(t, self.delay[i]), :]
                     self.x[i] = wl
+                else:
+                    self.x[i] = wl
+                    self.y[i] = t
                 self.z[i] = dA
             ### 1D Data = standard spectra ###
             else:
@@ -141,12 +149,18 @@ class DataReader():
             # cut data if wanted
             if self.x_cuts:
                 mask = (self.x[i]>self.x_cuts[i][0])&(self.x[i]<self.x_cuts[i][1])
-                self.y[i] = self.y[i][mask]
                 self.x[i] = self.x[i][mask]
+                if self.contour:
+                    self.z[i] = self.z[i][:, mask]
+                else:
+                    self.y[i] = self.y[i][mask]
             if self.y_cuts:
                 mask = (self.y[i]>self.y_cuts[i][0])&(self.y[i]<self.y_cuts[i][1])
-                self.x[i] = self.x[i][mask]
                 self.y[i] = self.y[i][mask]
+                if self.contour:
+                    self.z[i] = self.z[i][mask, :]
+                else:
+                    self.x[i] = self.x[i][mask]
 
             # correct baseline using a single value
             if self.baseline_at:
@@ -181,15 +195,24 @@ class DataReader():
             if self.norm[i]:
                 if self.norm_at:
                     from pyrene.standard.misc import find_index
-                    self.y[i] /= self.y[i][find_index(self.x[i], self.norm_at[i])]     
+                    if not self.contour:
+                        self.y[i] /= self.y[i][find_index(self.x[i], self.norm_at[i])]
+                    else:
+                        self.z[i] /= self.z[i][find_index(self.y[i], self.norm_at[i][0]), find_index(self.x[i], self.norm_at[i][1])]     
                 else:
-                    self.y[i] /= np.max(self.y[i]) 
+                    if not self.contour:
+                        self.y[i] /= np.max(self.y[i]) 
+                    else:
+                        self.z[i] /= np.max(self.z[i])
 
             if self.min_norm[i]:
                 self.y[i] *= -1 
 
             if self.devide[i]:
-                self.y[i] /= self.devide[i]
+                if not self.contour:
+                    self.y[i] /= self.devide[i]
+                else:
+                    self.z[i] /= self.devide[i]
 
             # calculate moving average if wanted 
             if self.ma[i]:
