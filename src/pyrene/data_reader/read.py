@@ -87,7 +87,7 @@ class DataReader():
             self.ma = [False for _ in self.files]
         else:
             if len(self.ma)==1:
-                self.ma = [True for _ in self.files]
+                self.ma = [self.ma[0] for _ in self.files]
         if self.ma and not self.ma_npoints:
             self.ma_npoints = [5 for _ in self.files]
         if not self.scatter:
@@ -198,12 +198,12 @@ class DataReader():
                     if not self.contour:
                         self.y[i] /= self.y[i][find_index(self.x[i], self.norm_at[i])]
                     else:
-                        self.z[i] /= self.z[i][find_index(self.y[i], self.norm_at[i][0]), find_index(self.x[i], self.norm_at[i][1])]     
+                        self.z[i] /= self.z[i][find_index(self.y[i], self.norm_at[i][1]), find_index(self.x[i], self.norm_at[i][0])] 
                 else:
                     if not self.contour:
-                        self.y[i] /= np.max(self.y[i]) 
+                        self.y[i] /= np.nanmax(self.y[i]) 
                     else:
-                        self.z[i] /= np.max(self.z[i])
+                        self.z[i] /= np.nanmax(self.z[i])
 
             if self.min_norm[i]:
                 self.y[i] *= -1 

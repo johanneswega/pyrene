@@ -237,23 +237,25 @@ class Plotter():
         labels = []
         for i in range(len(delays)):
             if title:
-                lab += r'$\Delta t = $'
+                lab = r'$\Delta t = $ '
+            else:
+                lab = ''
             if self.experiment == 'femto':
                 if np.abs(delays[i])<1:
-                    lab = r'%.3g fs'%(delays[i]*1e3)
+                    lab += r'%.3g fs'%(delays[i]*1e3)
                 elif 1<=np.abs(delays[i])<1e3:
-                    lab = r'%.3g ps'%(delays[i])
+                    lab += r'%.3g ps'%(delays[i])
                 elif 1e3<=np.abs(delays[i])<1e6:
-                    lab = r'%.3g ns'%(delays[i]/1e3)
+                    lab += r'%.3g ns'%(delays[i]/1e3)
                 else:
-                    lab = r'%.3g µs'%(delays[i]/1e6)
+                    lab += r'%.3g µs'%(delays[i]/1e6)
             if self.experiment == 'nano':
                 if np.abs(delays[i])<1:
-                    lab = r'%.3g ps'%(delays[i]*1000)
+                    lab += r'%.3g ps'%(delays[i]*1000)
                 elif 1<=np.abs(delays[i])<1000:
-                    lab = r'%.3g ns'%(delays[i])
+                    lab += r'%.3g ns'%(delays[i])
                 else:
-                    lab = r'%.3g µs'%(delays[i]/1000) 
+                    lab += r'%.3g µs'%(delays[i]/1000) 
             labels.append(lab)
         return labels
         
