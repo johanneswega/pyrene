@@ -448,7 +448,7 @@ wheels = [
 [[package]]
 name = "pyrene"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "brukeropus" },
     { name = "cclib" },
