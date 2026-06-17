@@ -24,8 +24,10 @@ class Absorption(DataReader, Plotter, DataExporter):
 
         ### plot data ###
         if not self.c:
-            if not self.norm:
+            if not self.norm[0]:
                 self.ylabel = 'absorbance'
+            if self.devide[0]:
+                self.ylabel = 'norm. absorbance'
             if self.TDM:
                 self.ylabel = r'$\varepsilon(\tilde{\nu}) / \tilde{\nu}$'
             else:
@@ -304,7 +306,8 @@ class Absorption(DataReader, Plotter, DataExporter):
         print("")
 
     def show(self):
-        self.show_plot()
+        self.show_plot(self.ax)
+        self.save_fig()
         plt.show()
 
 # test implementation

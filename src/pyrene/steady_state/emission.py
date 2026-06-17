@@ -17,8 +17,10 @@ class Emission(DataReader, Plotter, DataExporter):
         self.read_data()
 
         ### plot data ###
-        if not self.norm:
+        if not self.norm[0]:
             self.ylabel = 'intensity / counts'
+        if self.devide[0]:
+            self.ylabel = 'norm. intensity'
         if self.TDM:
             self.ylabel = r'$F(\tilde{\nu}) / \tilde{\nu}^3$'
         else:
@@ -72,5 +74,6 @@ class Emission(DataReader, Plotter, DataExporter):
             return wns_em, n, er, fe, fn, df  
 
     def show(self):
-        self.show_plot()
+        self.show_plot(self.ax)
+        self.save_fig()
         plt.show()

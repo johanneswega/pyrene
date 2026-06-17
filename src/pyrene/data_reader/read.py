@@ -11,9 +11,11 @@ class DataReader():
     y_cuts : list = None
 
     ### normalization arguments ###
-    norm : bool = False
+    norm : list = None
     # whether to normalize at a specific x-value
-    norm_at : float = None
+    norm_at : list = None
+    min_norm : list = None
+    devide : list = None
 
     ### moving average ###
     ma : list = None
@@ -31,8 +33,8 @@ class DataReader():
     # whether to use TDM representation 
     TDM : bool = False
 
-    # whether 1 D or 2 D data 
-    two_dim : bool = False
+    # if you want to compute absorptance (for comparison to excitation spectra)
+    absorptance : bool = False
 
     # whether to extract wavenumbers or wavelengths 
     wn : bool = True
@@ -43,6 +45,12 @@ class DataReader():
     # if emission data 
     em : bool = False
     corr: bool = True
+
+    ### transient absorption data reading arguments ### 
+    two_dim : bool = False
+    experiment : str = 'femto'
+    delay : list = None
+    scatter : list = None
 
     def read_data(self) -> None:
         """method to read/cut/normalize data"""
@@ -68,17 +76,40 @@ class DataReader():
                 self.norm = [self.norm[0] for _ in self.files]            
         if not self.norm: 
             self.norm = [False for _ in self.files]
+        if not self.min_norm:
+            self.min_norm = [False for _ in self.files]
+        if not self.devide:
+            self.devide = [False for _ in self.files]
         if not self.ma: 
             self.ma = [False for _ in self.files]
+        else:
+            if len(self.ma)==1:
+                self.ma = [True for _ in self.files]
         if self.ma and not self.ma_npoints:
             self.ma_npoints = [5 for _ in self.files]
+        if not self.scatter:
+            self.scatter = [False for _ in self.files]
+        else:
+            if len(self.scatter)==1:
+                self.scatter = [self.scatter[0] for _ in self.files]
 
         ### loop through files ###
         for i in range(len(self.files)):
 
-            # read data
+            ### 2D Data = TA data ###
             if self.two_dim:
-                ...
+                if '.npy' in self.files[i]:
+                    t, wl, dA = np.load(self.files[i], allow_pickle=True)
+                # remove scatter 
+                if self.scatter[i]:
+                    dA[:, (wl >= self.scatter[i][0]) & (wl <= self.scatter[i][1])] = np.nan  
+                # extract spectrum at delay
+                if self.delay:
+                    from pyrene.standard.misc import find_index
+                    self.y[i] = dA[find_index(t, self.delay[i]), :]
+                    self.x[i] = wl
+                self.z[i] = dA
+            ### 1D Data = standard spectra ###
             else:
                 if not '.txt' in self.files[i]:
                     # normal csv file
@@ -105,7 +136,7 @@ class DataReader():
                         self.y[i] = data[:,2]                       
                     else:
                         self.x[i] = data[:,1]
-                        self.y[i] = data[:,-1]                             
+                        self.y[i] = data[:,-1]                           
 
             # cut data if wanted
             if self.x_cuts:
@@ -142,13 +173,23 @@ class DataReader():
                 else:
                     self.y[i] /= wn
 
+            # convert absorbance to absorptance 
+            if self.absorptance: 
+                self.y[i] = 1 - 10**(-self.y[i])
+
             # normalize if needed
             if self.norm[i]:
                 if self.norm_at:
                     from pyrene.standard.misc import find_index
                     self.y[i] /= self.y[i][find_index(self.x[i], self.norm_at[i])]     
                 else:
-                    self.y[i] /= np.max(self.y[i])  
+                    self.y[i] /= np.max(self.y[i]) 
+
+            if self.min_norm[i]:
+                self.y[i] *= -1 
+
+            if self.devide[i]:
+                self.y[i] /= self.devide[i]
 
             # calculate moving average if wanted 
             if self.ma[i]:

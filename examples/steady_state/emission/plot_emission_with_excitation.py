@@ -9,7 +9,7 @@ ex = Emission(files=['Data/ex_spectrum.dat'], slave=True, corr=False, marker=['-
               x_cuts=[(350, 500)], norm=[True], labels=['excitation'])
 
 # make absorption class as slave to plot inside ax of em class
-a = Absorption(files=['Data/abs.csv'], x_cuts=[(350, 500)], norm=[True], labels=['absorption'], colors=['b'], slave=True)
+a = Absorption(files=['Data/abs.csv'], x_cuts=[(350, 500)], absorptance=False, norm=[True], labels=['absorptance'], colors=['b'], slave=True)
 
 # plot absorption and excitation spectra inside em figure
 em.plot_absorption(a, ExClass=ex)
