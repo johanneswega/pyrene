@@ -37,6 +37,8 @@ class Plotter():
     lines : list = None
     titles : list = None
     no_labels : bool = False
+    markersize : list = None
+    linewidth : list = None
 
     def plot_data(self, master_ax=None, contour_index=0):
         """creates figure and axis object"""
@@ -55,23 +57,18 @@ class Plotter():
         if self.no_labels:
             self.labels = [None for _ in self.files]
 
-        # create fill
-        if not self.fill:
-            self.fill = [False for _ in self.files]
-
         # create colors
         if not self.colors:
             from pyrene.standard.misc import rainbow
             self.colors = rainbow(self.files)
 
-        # create markers 
-        if not self.marker: 
-            self.marker = ['-' for _ in self.files]
+        # standard parameters
+        self.fill = self.set_standard_value(self.fill, default=False)
+        self.marker = self.set_standard_value(self.marker, default='-')
+        self.markersize = self.set_standard_value(self.markersize, default=6)
+        self.linewidth = self.set_standard_value(self.linewidth, default=1.7)
+        self.alphas =  self.set_standard_value(self.alphas, default=1.0)
 
-        # create markers 
-        if not self.alphas: 
-            self.alphas = [1 for _ in self.files]
-            
         # put zeroline through axis
         if self.zeroline:
             ax.axhline(y=0, color='k')
@@ -84,13 +81,15 @@ class Plotter():
                     if self.wn:
                             self.x_ma[i] = 1e4/self.x_ma[i]
                     if self.marker[i]:
-                        ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], color=self.colors[i], alpha=0.5)
-                        ax.plot(self.x_ma[i], self.y_ma[i] - self.waterfall * i, self.marker[i], label=self.labels[i], color=self.colors[i])
+                        ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], color=self.colors[i], alpha=0.5, 
+                                markersize=self.markersize[i], linewidth=self.linewidth[i])
+                        ax.plot(self.x_ma[i], self.y_ma[i] - self.waterfall * i, '-', label=self.labels[i], color=self.colors[i], linewidth=self.linewidth[i])
                     if self.fill[i]:
                         ax.fill_between(self.x_ma[i], -self.waterfall * i, self.y_ma[i] - self.waterfall * i, alpha=0.1, color=self.colors[i])
                 else:
                     if self.marker[i]:
-                        ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], label=self.labels[i], color=self.colors[i], alpha=self.alphas[i])
+                        ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], 
+                                label=self.labels[i], color=self.colors[i], alpha=self.alphas[i], markersize=self.markersize[i], linewidth=self.linewidth[i])
                     if self.fill[i]:
                         ax.fill_between(self.x[i], -self.waterfall * i, self.y[i] - self.waterfall * i, alpha=0.1, color=self.colors[i])
 
@@ -120,6 +119,20 @@ class Plotter():
         if not self.contour:
             if self.steady_state and not self.no_labels:
                 self.plot_steady_state(ax)
+
+
+    def set_standard_value(self, value, default):
+        """
+        Method to initialize parameter lists
+        If value is None/empty -> fill with default.
+        If value has length 1 -> repeat it.
+        Otherwise return unchanged.
+        """
+        if value is None:
+            return [default for _ in self.files]
+        if len(value) == 1:
+            return [value[0] for _ in self.files]
+        return value
 
     def set_contour_plot_settings(self):
         """ method to define standard arguments for contour plot """ 

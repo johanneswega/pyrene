@@ -18,8 +18,6 @@ class Absorption(DataReader, Plotter, DataExporter):
     # automatically call read_data method from parent datareader after init
     def __post_init__(self):
         ### read data ###
-        self.skiprows = 2
-        self.usecols = [0, 1]
         self.read_data()
 
         ### plot data ###

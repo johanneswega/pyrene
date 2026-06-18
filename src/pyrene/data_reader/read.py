@@ -21,8 +21,8 @@ class DataReader():
     ma_npoints : list = None
 
     ### formating options ###
-    delimiter: str = ','
-    skiprows: int = 0
+    delimiter: list = None
+    skiprows: list = None
     usecols : list = None
 
     ### baseline correction ###
@@ -50,6 +50,7 @@ class DataReader():
     experiment : str = 'femto'
     delay : list = None
     scatter : list = None
+    wavelength : list = None
 
     # temporary list to store normalization values for dA 
     movnorm : list = None
@@ -67,34 +68,20 @@ class DataReader():
             self.y_ma = np.empty(len(self.files), dtype=object)
 
         ### define standard values if not set ###
-        if self.x_cuts:
-            if len(self.x_cuts)==1:
-                self.x_cuts = [self.x_cuts[0] for _ in self.files]
-        if self.y_cuts:
-            if len(self.y_cuts)==1:
-                self.y_cuts = [self.y_cuts[0] for _ in self.files]
-        if self.norm:
-            if len(self.norm)==1:
-                self.norm = [self.norm[0] for _ in self.files]    
-        if self.norm_at:
-            if len(self.norm_at)==1:
-                self.norm_at = [self.norm_at[0] for _ in self.files]         
-        if not self.norm: 
-            self.norm = [False for _ in self.files]
-        if not self.devide:
-            self.devide = [False for _ in self.files]
-        if not self.ma: 
-            self.ma = [False for _ in self.files]
-        else:
-            if len(self.ma)==1:
-                self.ma = [self.ma[0] for _ in self.files]
-        if self.ma and not self.ma_npoints:
-            self.ma_npoints = [5 for _ in self.files]
-        if not self.scatter:
-            self.scatter = [False for _ in self.files]
-        else:
-            if len(self.scatter)==1:
-                self.scatter = [self.scatter[0] for _ in self.files]
+        # set_standard value method is implemented in plotter class
+        self.delimiter = self.set_standard_value(self.delimiter, default=',')
+        self.skiprows = self.set_standard_value(self.skiprows, default=2)
+        self.usecols = self.set_standard_value(self.usecols, default=(0,1))
+        self.x_cuts = self.set_standard_value(self.x_cuts, default=False)
+        self.y_cuts = self.set_standard_value(self.y_cuts, default=False)
+        self.norm = self.set_standard_value(self.norm, default=False)
+        self.norm_at = self.set_standard_value(self.norm_at, default=False)
+        self.devide = self.set_standard_value(self.devide, default=False)
+        self.baseline = self.set_standard_value(self.baseline, default=False)
+        self.baseline_at = self.set_standard_value(self.baseline_at, default=False)
+        self.ma = self.set_standard_value(self.ma, default=False)
+        self.ma_npoints = self.set_standard_value(self.ma_npoints, default=5)
+        self.scatter = self.set_standard_value(self.scatter, default=False)
 
         ### loop through files ###
         for i in range(len(self.files)):
@@ -113,6 +100,11 @@ class DataReader():
                     from pyrene.standard.misc import find_index
                     self.y[i] = dA[find_index(t, self.delay[i]), :]
                     self.x[i] = wl
+                # extract kinetics at wavelength
+                elif self.wavelength:
+                    from pyrene.standard.misc import find_index
+                    self.y[i] = dA[:, find_index(wl, self.wavelength[i])]
+                    self.x[i] = t                    
                 else:
                     self.x[i] = wl
                     self.y[i] = t
@@ -122,14 +114,13 @@ class DataReader():
                 if not '.txt' in self.files[i]:
                     # normal csv file
                     if not self.IR:
-                        data = np.loadtxt(self.files[i], skiprows=self.skiprows, delimiter=self.delimiter, usecols=self.usecols)
+                        data = np.loadtxt(self.files[i], skiprows=self.skiprows[i], delimiter=self.delimiter[i], usecols=self.usecols[i])
                         self.x[i] = data[:,0]
                         self.y[i] = data[:,1]   
                         # correct baseline
-                        if self.baseline:
-                            if self.baseline[i]:
-                                base = np.loadtxt(self.baseline[i], skiprows=self.skiprows, delimiter=self.delimiter, usecols=self.usecols) 
-                                self.y[i] -= base[:, 1] 
+                        if self.baseline[i]:
+                            base = np.loadtxt(self.baseline[i], skiprows=self.skiprows[i], delimiter=self.delimiter[i], usecols=self.usecols[i]) 
+                            self.y[i] -= base[:, 1] 
                     else:
                         # load FTIR file
                         from brukeropus import read_opus
@@ -147,14 +138,14 @@ class DataReader():
                         self.y[i] = data[:,-1]                           
 
             # cut data if wanted
-            if self.x_cuts:
+            if self.x_cuts[i]:
                 mask = (self.x[i]>self.x_cuts[i][0])&(self.x[i]<self.x_cuts[i][1])
                 self.x[i] = self.x[i][mask]
                 if self.contour:
                     self.z[i] = self.z[i][:, mask]
                 else:
                     self.y[i] = self.y[i][mask]
-            if self.y_cuts:
+            if self.y_cuts[i]:
                 mask = (self.y[i]>self.y_cuts[i][0])&(self.y[i]<self.y_cuts[i][1])
                 self.y[i] = self.y[i][mask]
                 if self.contour:
@@ -163,10 +154,9 @@ class DataReader():
                     self.x[i] = self.x[i][mask]
 
             # correct baseline using a single value
-            if self.baseline_at:
+            if self.baseline_at[i]:
                 from pyrene.standard.misc import find_index
-                if self.baseline_at[i]:
-                    self.y[i] -= self.y[i][find_index(self.x[i], self.baseline_at[i])] 
+                self.y[i] -= self.y[i][find_index(self.x[i], self.baseline_at[i])] 
 
             # photometric correction for emission spectra 
             if self.em and self.corr and not '.txt' in self.files[i]:
@@ -193,7 +183,7 @@ class DataReader():
 
             # normalize if needed
             if self.norm[i]:
-                if self.norm_at:
+                if self.norm_at[i]:
                     from pyrene.standard.misc import find_index
                     if not self.contour:
                         self.y[i] /= np.abs(self.y[i][find_index(self.x[i], self.norm_at[i])])

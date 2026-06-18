@@ -12,8 +12,6 @@ class Emission(DataReader, Plotter, DataExporter):
     def __post_init__(self):
         ### read data ###
         self.em = True
-        self.skiprows = 2
-        self.usecols = [0, 1]
         self.read_data()
 
         ### plot data ###

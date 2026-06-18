@@ -6,5 +6,4 @@ m = Movie(files=['data/dA1.npy', 'data/dA2.npy'],
           ma=[True],
           steady_state=[['data/abs.txt', (360, 700), -1.0, 'b', 'Abs.']])
 
-
 m.render()

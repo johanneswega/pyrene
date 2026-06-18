@@ -18,7 +18,7 @@ class DataExporter():
             ### Absorption ###
             if self.abs_spec:
                 if self.IR:
-                    if self.norm[i]:
+                    if self.norm[i] or self.devide[i]:
                         head = r'wavenlength / µm,    wavenumber / cm-1,  norm. absorbance'
                     elif self.c:
                         head = r'wavenlength / µm,    wavenumber / cm-1,  extinction coeffcient / M-1 cm-1'
@@ -28,7 +28,7 @@ class DataExporter():
                     wl = 1e4/wn
                     A = self.y[i]
                 else:
-                    if self.norm[i]:
+                    if self.norm[i] or self.devide[i]:
                         head = r'wavenlength / nm,    wavenumber / cm-1,  norm. absorbance'
                     elif self.c:
                         head = r'wavenlength / nm,    wavenumber / cm-1,  extinction coeffcient / M-1 cm-1'
@@ -50,7 +50,7 @@ class DataExporter():
 
             ### emission ###
             if self.em_spec:
-                if self.norm[i]:
+                if self.norm[i] or self.devide[i]:
                     head = r'wavenlength / nm,  wavenumber / cm-1,  norm. intensity for wavelength, norm. intensity for wavenumber'
                 else:
                     head = r'wavenlength / nm,  wavenumber / cm-1,  intensity for wavelength / a.u., intensity for wavenumber / a.u.'
@@ -68,6 +68,14 @@ class DataExporter():
                 print("exported emission data")
                 np.savetxt('%s.txt'%(self.files[i][:self.files[i].find('.')]), 
                             np.column_stack([wl, wn, I_wl, I_wn]),
-                            header=head, delimiter=',')                                                
+                            header=head, delimiter=',') 
+
+            ### transient absorption ###    
+            if self.two_dim:
+                if self.wavelength:
+                    if self.norm[i] or self.devide[i]:
+                        head_dA = r'norm. transient absorption'
+                    else:
+                        head_dA = r'norm. '                                        
 
         
