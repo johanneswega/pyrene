@@ -1,0 +1,256 @@
+\hline 10	tetramethylsilane	12.3	[2]	0.236	[ee]	0.75	[ee]	3.89	[ee]	0.1148	[2]
+\hline 20	n-pentane	15.5		0.225	[1]	0.84	_2]	5.62	[4]	0.1125	$\lceil 2\rceil$
+\hline 30	2-methylbutane	14.5	{$[1]$}	0.215	[1]	0.93	[2]	4.85	{$[4]$}	0.1096	[2]
+\hline 40	n-hexane	17.9	{$[1]$}	0.294	{$[1]$}	0.86	[2]	4.21	{$[4]$}	0.1196	[2]
+\hline 50	c-hexane	24.6	{$[1]$}	0.898	[1]	1.75	[2]	1.41	{$[4]$}	0.1234	[2]
+\hline 60	n-heptane	19.7	[1]	0.397	[1]	1.05	[2]	3.11	[4]	0.1247	[2]
+\hline 70	n-octane	21.2	{$[1]$}	0.515	[1]	1.23	[2]	2.75	{$[4]$}	0.1277	$9[2]$
+\hline 80	"2,2,4-trimethylpentane"	18.3	[1]	0.475	[1]	1.20	[2]	2.42	{$[\mathrm{~h}] \mathrm{b}$}	0.0982	[2]
+\hline 90	n-decane	23.4	{$[1]$}	0.861	[1]	1.48	[2]	1.31	{$[4]$}	0.1318	[2]
+\hline 100	n-dodecane	24.9	[1]	1.378	[1]	1.75	[2]	0.93	[i]	0.1354	[2]
+\hline 110	n-hexadecane	27.1	$\lceil 2\rceil$	2.831	$\lceil 2\rceil$	2.08	$\lceil 2\rceil$	0.38	$\lceil\mathrm{y}\rceil$	0.1421	$\lceil 2\rceil$
+\hline 120	benzene	28.2	{$[1]$}	0.603	[1]	1.27	[2]	2.16	{$[4]$}	0.1433	[2]
+\hline 130	toluene	27.9	[1]	0.553	[1]	1.15	[2]	2.59	[]]b	0.1323	[2]
+\hline 140	o-xylene	29.5	[1]	0.756	[1]	1.36	[2]	1.61	{$[\mathrm{~h}] \mathrm{b}$}	0.1313	[2]
+\hline 150	m-xylene	28.1	{$[1]$}	0.581	[1]	1.19	[2]	2.56	[j]d	0.1302	[2]
+\hline 160	p-xylene	27.8	{$[1]$}	0.605	[1]	1.21	[2]	2.75	[j]d	0.1297	[2]
+\hline 170	ethylbenzene	28.5	[1]	0.637	[1]	1.24	[2]			0.1289	[2]
+\hline 180	cumene	27.7	[1]	0.739	[1]	1.35	[2]	1.68	{$[\mathrm{~h}] \mathrm{b}$}	0.1232	[2]
+\hline 190	mesitylene	28.3	$\lceil 1\rceil$	1.039	$\lceil 1\rceil$	1.54	$\lceil 2\rceil$			0.1351	$\lceil 2\rceil$
+\hline 200	styrene	31.6	[1]	0.696	[1]	1.42	[2]			0.1365	[2]
+\hline 210	tetralin	34.5	[1]	2.14	[1]	1.96	[2]			0.1296	[2]
+\hline 220	cis-decalin	31.6	[1]	3.034	[1]	2.23	[2]	0.46	{$[\mathrm{~h}] \mathrm{b}$}	0.1130	{$[2]$}
+\hline 230	water	71.8	[1]	0.8903	[1]	2.21	[2]	2.13	[4]	0.6063	[2]
+\hline 240	methanol	22.3	{$[1]$}	0.551	[1]	1.32	[2]	2.32	{$[4]$}	0.1999	[2]
+\hline 250	ethanol	21.9	{$[1]$}	1.083	[1]	1.91	{$[2]$}	1.01	{$[4]$}	0.1681	{$[2]$}
+\hline 290	i-butanol	22.5	[1]	3.333	[1]	3.24	[2]			0.1318	[2]
+\hline 300	2-butanol	23.0	$\lceil 1\rceil$	2.998	$\lceil 1\rceil$	3.96	$\lceil 2\rceil$			0.1344	
+\hline 310	t-butanol	20.1	[1]	4.438	[1]	2.80	[2]	0.51	{$[4] \mathrm{c}$}	0.1158	[2]
+\hline 320	n-pentanol	25.2	[1]	3.513	{$[1]$}	2.87	[2]	0.26	[aa]	0.1528	[2]
+\hline 330	i-pentanol	23.9	{$[1]$}	3.738	{$[1]$}	3.11	{$[2]$}			0.1407	{$[2]$}
+\hline 340	t-pentanol	22.3	{$[1]$}	3.548	[1]	4.51	{$[2]$}			0.1213	[2]
+\hline 350	n-hexanol	25.7	{$[1]$}	4.592	[1]	3.14	{$[2]$}			0.1537	[2]
+\hline 360	c-hexanol	33.8	[1]	41.06	{$[1] \mathrm{b}$}	69.90	{$[2] \mathrm{b}$}			0.1341	[2]
+\hline 370	n-octanol	26.9	{$[1]$}	7.363	{$[1]$}	3.59	[2]	0.14	[4]	0.1598	[2]
+\hline 380	n-decanol	28.4	[2]	11.32	[2]	3.93	[2]			0.1615	[2]
+\hline 390	n-dodecanol	29.4	{$[2]$}	15.72	[2]	4.05	{$[2]$}			0.1496	[2]
+\hline 400	benzyl alcohol	39.5	[1]	6.54	[1]	3.30	[2]			0.1603	{$[2]$}
+\hline 410	2-phenylethanol	40.6	$\lceil 2\rceil$	1.43	{$[\mathrm{~d}] \mathrm{a}$}	4.59	$\lceil 2\rceil$			0.1627	$\lceil 2\rceil$
+\hline 420	allyl alcohol	25.3	[1]	1.333	[1]	2.08	{$[2]$}			0.1546	{$[2]$}
+\hline 430	2-chloroethanol	38.9	[1]	3.046	[1]	2.65	[2]			0.1332	{$[2]$}
+\hline 440	2-cyanoethanol										
+\hline 450	"2,2,2-trifluoroethanol"			1.755	$\lceil 1\rceil$	2.57	$\lceil 1\rceil$				
+\hline 460	hexafluoro-i-propanol	16.1	{$[\mathrm{a}]$}	1.579	[a]						
+\hline 470	2-methoxyethanol	30.8	[1]	1.61	[1]	2.53	{$[2]$}			0.1880	{$[2]$}
+\hline 480	2-ethoxyethanol	28.2	[1]	1.85	[1]	2.70	{$[2]$}			0.1757	[2]
+\hline 500	"1,2-propanediol"	36.5		42.2	$\lceil 1\rceil$	6.26	$\lceil 2\rceil$			0.2004	$\lceil 2\rceil$
+\hline 510	"1,3-propanediol"	45.2	[1]	46.6	{$[1] \mathrm{a}$}	3.60	[2]			0.2226	{$[2]$}
+\hline 520	2-butanediol	35.3	[2]	50	[2]	6.22	[2]			0.1730	[2]
+\hline 530	"2,3-butanediol (meso)"	30.6	[1]	65.8	{$[1] \mathrm{c}$}	4.93	{$[2]$}				
+\hline 540	"1,4-butanediol"	44.2	[1]	71.5	[1]	4.96	[2]			0.2059	[2]
+\hline 550	"1,5-pentanediol"	43.4	[1]	114.66	{$[1] \mathrm{a}$}	5.10	[2]			0.2000	[2]
+\hline 560	diethyleneglycol	48.5	[1]	30	[1]	4.69	{$[2]$}			0.2037	[2]
+\hline 570	triethyleneglycol	45.2	[1]	49	{$[1] \mathrm{a}$}	4.56	[2]			0.1931	[2]
+\hline 580	glycerol	63.3	{$[1]$}	945	[1]	8.53	[2]	0.00	{$[\mathrm{k}] \mathrm{b}$}	0.2918	[2]
+\hline 590	phenol	38.8	[1]	3.5	{$[1] \mathrm{e}$}	2.70	[2]	0.78	[]] 7	0.1565	[2]
+\hline 600	2-methylphenol	35.0	[1]	7.608	[1]	2.68	{$[2] \mathrm{b}$}	0.58	{$[\mathrm{u}]$}	0.1517	[2] $\mathrm{c}$
+\hline 610	3-methylphenol	37.0	{$[1]$}	9.807	{$[1] \mathrm{b}$}	5.48	[2]	0.55	{$[\mathrm{u}]$}	0.1493	[2]
+\hline 620	4-methylphenol	34.6	[1]	9.402	{$[1] \mathrm{c}$}	4.29	{$[2] \mathrm{b}$}	0.61	{$[\mathrm{u}]$}	0.1426	{$[2] \mathrm{c}$}
+\hline 630	2-methoxyphenol							0.73	{$[\mathrm{u}]$}		
+\hline 640	"2,4-dimethylphenol"	31.2	[1]	68.5	[2]	3.42	[2]	0.58	{$[\mathrm{u}]$}	0.1612	[2]
+\hline 650	3-chlorophenol			11.55	[3]	3.08	[2]				
+\hline 660	diethyl ether	16.5	[1]	0.242	{$[1] \mathrm{a}$}	1.01	[2]	6.1	[j]a	0.1282	[2]
+\hline 670	di-n-propyl ether	19.9	{$[1]$}	0.339	{$[1]$}	1.16	{$[2]$}			0.1266	[2]
+\hline 680	di-i-propyl ether	17.2	[1]	0.379	[1]	1.11	[2]			0.1093	[2]
+\hline 690	di-n-butyl ether	22.5	[1]	0.645	[1]	1.35	[2]			0.1279	[2]
+\hline 700	di(2-chloroethyl) ether	37.0	[1]	2.14	{$[1]$}	2.52	{$[1]$}				
+\hline 710	"1,2-dimethoxyethane"	24.6	[1]	0.455	[1]	1.06	[2]			0.1405	[2]
+\hline 720	bis(methoxyethyl) ether	30.4	[2]	0.989	[1]	1.57	{$[2]$}				
+\hline 730	furan	23.4	[1]	0.361	[1]	1.01	[2]			0.1262	[2]
+\hline 740	tetrahydrofuran	26.4	[1]	0.462	{$[\mathrm{v}]$}	1.04	[2]			0.1200	[2]
+\hline 750	2-methyl tetrahydrofuran			0.473	{$[\mathrm{v}]$}	1.01	[v]				
+\hline 760	tetrahydropyran			0.764	$\lceil 1\rceil$	1.62	$\lceil 1\rceil$	1.84	$\lceil 1\rceil$		
+\hline 770	"1,4-dioxane"	32.8	[1]	1.194	[1]	1.77	[2]	1.01	{$[4]$}	0.1588	[2]
+\hline 780	"1,3-dioxolane"			0.6	{$[1] \mathrm{a}$}						
+\hline 790	"1,8-cineole"	31.1	[1]	2.303	[dd]	3.42	[dd]				
+\hline 800	anisole	34.6	[1]	0.984	[1]	1.51	[2]	1.35	{$[\mathrm{~h}] \mathrm{b}$}	0.1560	[2]
+\hline 810	phenetole	32.9	[1]	1.138	[1]	1.71	[2]			0.1397	[2]
+\hline 820	diphenyl ether	39.4	[1]	2.6	[1]	2.26	[2]	0.35	{$[\mathrm{~h}] \mathrm{b}$}		
+\hline 830	dibenzyl ether	38.2	[1]	4.654	[1]	2.69	[2]	0.1249	[2]		
+\hline 840	"1,2-dimethoxybenzene"			3.281	[1]						
+\hline 850	trimethyl orthoformate										
+\hline 860	trimethyl orthoacetate										
+\hline 870	propionaldehyde			0.318	[1]	1.00	[2]	0.1601	[2]		
+\hline 880	butyraldehyde	29.9	[1]	0.43	{$[1]$}	1.06	[2]	0.1451	[2]		
+\hline 890	benzaldehyde	38.3	[2]	1.321	[1]	1.52	[2]	0.1525	[2]		
+\hline 900	p-methoxybenzaldehyde			4.22	[d]						
+\hline 910	cinnamaldehyde			5.4	[d]						
+\hline 920	acetone	22.7	_1]	0.303		0.95	_2]	4.77	$\lceil 4]$	0.1605	_2]
+\hline 930	2-butanone	23.7	[1]	0.378	[1]	1.09	[2]			0.1450	[2]
+\hline 940	2-pentanone	24.5	[1]	0.463	[1]	1.13	[2]			0.1420	[2]
+\hline 950	methyl i-propyl ketone	24.8	[2]	0.429	[2]	1.18	[2]			0.1424	[2]
+\hline 960	3-pentanone	24.8	[1]	0.442	[1]	1.08	[2]			0.1439	[2]
+\hline 970	c-pentanone	33.2	[1]	1.307	[1]	1.48	[2]			0.1484	[2]
+\hline 980	methyl-i-butyl ketone	23.2	[1]	0.546	[1]	1.34	[2]			0.1439	[2]
+\hline 990	methyl t-butyl ketone			0.713	{$[\mathrm{~d}] \mathrm{a}$}	1.31	[2]			0.1384	[2]
+\hline 1000	c-hexanone	35.0	[1]	2.003	[1]	2.01	[2]	0.89	[1]	0.1403	[2]
+\hline 1010	2-heptanone	26.1	[1]	0.76	[1]	1.36	[2]				
+\hline 1020	3-heptanone	25.5	[1]	0.743	[2]	1.47	[2]			0.1360	[2]
+\hline 1030	di-t-butyl ketone										
+\hline 1040	acetophenone	38.8	[1]	1.66	[1]	1.82	[2]			0.1471	[2]
+\hline 1050	propiophenone										
+\hline 1060	phenylacetone										
+\hline 1070	p-methylacetophenone										
+\hline 1080	p-chloroacetophenone										
+\hline 1090	benzophenone	45.1	[3]	13.61	[d]	2.16	[2]f	0.46	[j] 7		
+\hline 1100	acetylacetone	30.3	[1]	0.767	[2]	1.27	[2]			0.1533	[2]
+\hline 1110	biacetyl										
+\hline 1120	formic acid	37.0	[1]	1.966	[1]	2.02	{$[2]$}			0.2698	[2]
+\hline 1130	acetic acid	26.9	[1]	1.131	[1]	1.48	[2]	0.99	[j]a	0.1593	[2]
+\hline 1140	propanoic acid	26.2	[1]	1.024	[1]	1.43	[2]			0.1465	[2]
+\hline 1150	n-butanoic acid	26.2	[1]	1.529	[1]	1.65	[2]			0.1466	[2]
+\hline 1160	n-pentanoic acid	26.1	[1]	1.975	[1]	1.99	[2]			0.1420	[2]
+\hline 1170	n-hexanoic acid	27.5	[1]	2.826	[1]	2.19	[2]			0.1420	[2]
+\hline 1180	n-heptanoic acid	27.8	[2]	3.84	[2]	2.36	[2]			0.1426	[2]
+\hline 1190	dichloroacetic acid	35.4	[3]	5.91	[2]	1.95	[2]			0.1869	[2]
+\hline 1200	trifluoroacetic acid	13.5	[1]	0.855	[1]	1.54	[2]			0.1621	[2]
+\hline 1210	acetic anhydride	31.9	[1]	0.841	[1]	1.37	[2]	1.61	[1]	0.1640	[2]
+\hline 1220	benzoyl chloride	38.7	[2]	1.137	[2]	1.42	[2]			0.1041	[2]
+\hline 1230	benzoyl bromide										
+\hline 1240	methyl formate	23.9	{$[1]$}	0.328	[1]	0.94	[2]			0.1851	[2]
+\hline 1250	ethyl formate	24.0	[1]	0.377	[1]	1.05	[2]			0.1603	[2]
+\hline 1260	methyl acetate	24.1	[1]	0.364	[1]	1.02	[2]	3.28	[4]	0.1534	[2]
+\hline 1270	ethyl acetate	23.1	[1]	0.426	[1]	1.10	[2]	2.77	{$[4]$}	0.1439	{$[2]$}
+\hline 1280	propyl acetate	23.7	[1]	0.551	[1]	1.16	[2]			0.1409	[2]
+\hline 1290	butyl acetate	24.5	[1]	0.689	[1]	1.34	{$[2]$}			0.1367	[2]
+\hline 1300	i-pentyl acetate	24.2	[1]	0.789	[1]	1.42	[2]			0.1304	{$[2]$}
+\hline 1310	methyl propanoate	24.4	[2]	0.431	[2]	1.09	[2]			0.1453	{$[2]$}
+\hline 1320	ethyl propanoate	23.7	[1]	0.502	[1]	1.18	{$[2]$}			0.1387	{$[2]$}
+\hline 1330	dimethyl carbonate	28.5	$\lceil 2\rceil$	0.585		1.44	$\lceil 2\rceil$			0.1617	
+\hline 1340	diethyl carbonate	26.0	[1]	0.748	[1]	1.34	[2]				
+\hline 1350	ethylene carbonate	41.4	[2]	1.93	{$[1] \mathrm{d}$}	1.41	[2]				
+\hline 1360	propylene carbonate	41.4	[2]	2.53	[1]	2.22	[2]			0.2124	[2]
+\hline 1370	diethyl malonate	31.1	$\lceil 1\rceil$	1.94	$\lceil 1\rceil$	2.05	$\lceil 2\rceil$			0.1503	$\lceil 2\rceil$
+\hline 1380	methyl benzoate	37.5	[1]	1.859	[1]	2.09	{$[2]$}			0.1536	{$[2]$}
+\hline 1390	ethyl benzoate	34.8	[1]	1.947	[1]	2.00	[2]			0.1443	[2]
+\hline 1400	dimethyl phthalate	40.4	[2]	14.36	{$[2]$}	4.76	[2]			0.1487	[2]
+\hline 1410	dibutyl phthalate	33.4	$\lceil 1\rceil$	15.4	$\lceil 1\rceil$	4.70	$\lceil 2\rceil$			0.1361	$\lceil 2\rceil$
+\hline 1420	ethyl chloroacetate	31.3	[1]	1.11	[2]	1.59	[2]			0.1362	[2]
+\hline 1430	ethyl trichloroacetate			0.4334	{$[d] \mathrm{a}$}						
+\hline 1440	ethyl acetoacetate	31.3	{$[1]$}	1.508	{$[\mathrm{~g}]$}	1.83	{$[2]$}			0.1515	[2]
+\hline 1450	4-butyrolactone	38.5	[2]	1.717	[2]	1.91	[v]			0.1613	[2]
+\hline 1460	perfluoro-n-hexane	11.0	{$[s]$}	0.662	{$[\mathrm{f}]$}						
+\hline 1470	perfluoro-n-heptane	11.9	{$[\mathrm{~s}]$}	0.8892	{$[\mathrm{f}]$}						
+\hline 1480	perfluoro-methylcyclo-hexane	14.0	[w]	0.873	[f]						
+\hline 1490	perfluoro-decalin	15.0	{$[\mathrm{t}]$}	5.14	[d]						
+\hline 1500	fluorobenzene	27.1	{$[1]$}	0.549	[1]	1.25	{$[2]$}			0.1260	[2]
+\hline 1510	hexafluorobenzene	21.6	[1]	0.86	[1]	2.05	[2]	1.61	{$[\mathrm{~m}]$}	0.0882	[2]
+\hline 1520	1-chlorobutane	23.4	[1]	0.426	[1]	1.11	[2]			0.1187	[2]
+\hline 1530	chlorobenzene	32.5	_1]	0.758	_1]	1.15	$\lceil 2\rceil$	2.35	[i]	0.1269	_2]
+\hline 1540	dichloromethane	27.2	[1]	0.411	[1]	0.93	[2]	3.78	[1]	0.1390	[2]
+\hline 1550	"1,1-dichloroethane"	24.2	[1]	0.505	[1]	1.07	[2]			0.1110	{$[2]$}
+\hline 1560	"1,2-dichloroethane"	31.5	[1]	0.779	[1]	1.27	[2]	1.72	[4]	0.1347	[2]
+\hline 1570	"tr-1,2-dichloroethylene"	27.8	[2]	0.385	[2]	0.93	[2]			0.1120	{$[2]$}
+\hline 1580	o-dichlorobenzene	36.2	[1]	1.324	[1]	1.44	[2]			0.1211	[2]
+\hline 1590	m-dichlorobenzene	35.5	[1]	1.028	[1]	1.27	[2]			0.1172	[2]
+\hline 1600	chloroform	26.5	[1]	0.536	[1]	1.00	[2]	2.31	[4]	0.1175	{$[2]$}
+\hline 1610	"1,1,1-trichloroethane"	24.9	[1]	0.795	[1]	1.39	[2]	0.71	{$[x]$}	0.1012	[2]
+\hline 1620	"1,1,2-trichloroethane"	33.0	[1]	1.101	[1]	1.40	[2]			0.1328	[2]
+\hline 1630	trichloroethylene	28.8	[1]	0.532	{$[1]$}	0.91	[2]			0.1150	[2]
+\hline 1640	"1,2,4-trichlorobenzene"	44.7	[2]	2.669	[2]	1.83	[2]			0.1117	[2]
+\hline 1650	tetrachloromethane	26.1	[1]	0.901	[1]	1.42	[2]	1.32	{$[4]$}	0.0997	[2]
+\hline 1660	tetrachloroethylene	31.3	[1]	0.841	[1]	1.04	[2]			0.1100	[2]
+\hline 1670	"1,1,2,2-tetrachloro-ethane"	35.4	[1]	1.575	[1]	1.67	[2]			0.1127	[2]
+\hline 1680	pentachloroethane	34.2	[1]	2.276	[1]	1.72	[2]			0.0940	[2]
+\hline 1690	1-bromobutane	24.8	[1]	0.597	[1]	1.09	[2]			0.1037	[2]
+\hline 1700	bromobenzene	35.5	[1]	1.069	[1]	1.38	[1]	1.12	[4]	0.1108	[2]
+\hline 1710	dibromomethane	40.1	[2]	0.981	{$[2]$}	1.05	[2]	1.55	{$[\mathrm{n}]$}	0.1085	[2]
+\hline 1720	"1,2-dibromoethane"	38.3	[1]	1.611	[1]	1.51	[2]			0.1011	{$[2]$}
+\hline 1730	bromoform	45.0	[1]	1.868	[1]	1.29	{$[2]$}	1.58	[1]	0.0994	[2]
+\hline 1740	1-iodobutane	28.7	[1]	0.826	[1]						
+\hline 1750	iodobenzene	38.8	[1]	1.517	[1]	1.57	[2]			0.1000	[2]
+\hline 1760	diiodomethane	50.0	[1]	2.592	[1]	1.53	[2]	0.56	[n]	0.0980	[2]
+\hline 1770	n-butylamine	23.5	[1]	0.578	[1]	1.40	[2]			0.1607	[2]
+\hline 1780	benzylamine	39.5	[3]	1.59	[3]	1.76	[2]			0.1669	[2]
+\hline 1790	"1,2-diaminoethane"	40.1	[1]	1.54	{$[1]$}	2.55	{$[2]$}			0.2322	[2]
+\hline 1800	diethylamine	19.4	[1]	0.289	[1]	1.28	[2]			0.1341	[2]
+\hline 1810	di-n-butylamine	24.1	[1]	0.946	[1]	1.70	[2]			0.1334	[2]
+\hline 1820	pyrrole	37.1	[1]	1.233	[1]	1.88	[2]			0.1641	[2]
+\hline 1830	pyrrolidine	29.2		0.702	_1]	1.51				0.1592	
+\hline 1840	piperidine	29.4	{$[1]$}	1.362	[1]	1.70	[2]	0.97	[o]	0.1789	[2]
+\hline 1850	morpholine	36.9	{$[1]$}	2.011	[1]	2.19	[2]			0.1643	[2]
+\hline 1860	triethylamine	20.1	[1]	0.363	[1]	1.03	[2]	2.97	[o]	0.1187	[2]
+\hline 1870	tri-n-butylamine	24.3	[1]	1.313	[1]	1.85	[2]			0.1204	[2]
+\hline 1880	aniline	42.8	{$[1]$}	3.77	[1]	3.36	[2]	0.62	{$[\mathrm{u}]$}	0.1722	[2]
+\hline 1890	o-chloroaniline	43.1	{$[1]$}	2.916	{$[1] \mathrm{a}$}	2.34	[2]	0.72	{$[\mathrm{u}]$}	0.1523	[2]
+\hline 1900	N-methylaniline	39.7	[1]	2.01	{$[1]$}	2.41	[2]			0.1577	[2]
+\hline 1910	"N,N-dimethylaniline"	25.6	[1]	1.288	[1]	1.55	[2]			0.1419	[2]
+\hline 1920	ethanolamine	48.3	[1]	19.346	[1]	4.14	[2]	0.05	[cc]	0.2366	[2]
+\hline 1930	diethanolamine	49.0	{$[2]$}	351.9	{$[1] \mathrm{b}$}	7.64	[2]				
+\hline 1940	triethanolamine	45.2	{$[2]$}	613.6	[1]	7.78	[2]			0.1964	[2]
+\hline 1950	pyridine	36.3	[1]	0.884	[1]	1.53	[2]	1.49	[o]	0.1624	[2]
+\hline 1960	2-methylpyridine	32.8	{$[1]$}	0.753	[1]	1.33	[2]			0.1465	[2]
+\hline 1970	3-methylpyridine	34.5	{$[1]$}	0.872	[1]	1.35	[2]			0.1368	[2]
+\hline 1980	4-methylpyridine	35.5	{$[1]$}	0.866	[2]	1.45	[2]			0.1388	[2]
+\hline 1990	"2,4-dimethylpyridine"	33.2	{$[1]$}	0.887	{$[1] \mathrm{a}$}		[2]				
+\hline 2000	"2,6-dimethylpyridine"	31.0	{$[1]$}	0.869	{$[1] \mathrm{a}$}	1.37	[2]			0.1302	[2]
+\hline 2010	"2,4,6-trimethylpyridine"	31.8	{$[2]$}	0.806	{$[\mathrm{e}]$}	2.35	[2]			0.1463	[2]
+\hline 2020	2-bromopyridine										
+\hline 2030	3-bromopyridine										
+\hline 2040	2-cyanopyridine										
+\hline 2050	pyrimidine	30.3	[2]							0.1521	{$[2]$}
+\hline 2060	quinoline	45.2	{$[1]$}	3.145	[1]	2.56	[2]			0.1492	[2]
+\hline 2070	acetonitrile	28.3	[1]	0.341	[1]	0.96	[2]	4.85	[j]	0.1877	[2]
+\hline 2080	propionitrile	26.7	[1]	0.405	[1]	1.06	[2]			0.1677	[2]
+\hline 2090	butyronitrile	26.8	[1]	0.549	[1]	1.18	[2]			0.1673	[2]
+\hline 2100	valeronitrile	27.0	[2]	0.692	[2]	1.24	[2]			0.1650	{$[2]$}
+\hline 2110	acrylonitrile	26.7	[2]	0.339	[2]	0.91	[2]			0.1651	{$[2]$}
+\hline 2120	benzyl cyanide	40.8	[1]	1.961	[1]	1.78	[2]			0.1245	{$[2]$}
+\hline 2130	benzonitrile	38.5	[1]	1.237	[1]	1.51	[2]			0.1485	[2]
+\hline 2140	nitromethane	36.3	_1]	0.614	$\lceil 1\rceil$	1.17	_2]	2.11	$\lceil 4\rceil$	0.2068	$\lceil 2\rceil$
+\hline 2150	nitroethane	32.1	[1]	0.638	[1]	1.16	[2]			0.1631	[2]
+\hline 2160	1-nitropropane	30.1	[1]	0.791	[1]	1.35	[2]			0.1542	[2]
+\hline 2170	2-nitropropane	29.3	[1]	0.721	[1]	1.21	[2]			0.1408	[2]
+\hline 2180	nitrobenzene	42.4	[1]	1.784	[1]	1.80	[2]			0.1480	[2]
+\hline 2190	formamide	58.2	{$[1]$}	3.302	{$[1]$}	2.62	[2]			0.3529	[2]
+\hline 2200	N-methylformamide	39.5	[1]	1.65	[1]	1.58	[2]	0.85	{$[\mathrm{p}]$}	0.2127	[2]
+\hline 2210	"N,N-dimethylformamide"	36.4	{$[1]$}	0.802	{$[1]$}	1.22	[2]	1.61	[p]	0.1840	[2]
+\hline 2220	"N,N-dimethylthioformamide"	45.4	[b]	1.98	[b]						
+\hline 2230	"N,N-diethylformamide"			1.254	[d]						
+\hline 2240	"N,N-methylacetamide"	32.9	[1]	3.65	{$[1] \mathrm{b}$}	2.08	[2]				
+\hline 2250	"N,N-dimethylacetamide"	31.7	$\lceil 1\rceil$	0.927	$\lceil 1\rceil$	1.19	$\lceil 2\rceil$			0.1672	$\lceil 2\rceil$
+\hline 2260	"N,N-diethyl acetamide"										
+\hline 2270	pyrrolidinone -2	46.3	[2]	13.3	[1]	3.14	[2]			0.1943	[2]
+\hline 2280	N-methylpyrrolidinone	40.7	[1]	1.666	[1]	1.88	[2]	0.78	{$[\mathrm{z}]$}	0.1340	[2]
+\hline 2290	N-methylthiopyrrolidinone	97.5	[2]	4.25	[b]					0.1344	[2]
+\hline 2300	tetramethylurea			1.395	[1]						
+\hline 2310	tetraethylurea										
+\hline 2320	dimethylcyanamide										
+\hline 2330	carbon disulfide	31.5	[1]	0.363	{$[1] \mathrm{a}$}	0.72	[2]	4.11	{$[4]$}	0.1513	[2]
+\hline 2340	dimethyl sulfide	23.8	[1]	0.279	{$[1]$}	0.86	[2]			0.1407	[2]
+\hline 2350	diethyl sulfide	24.5	[1]	0.417	[1]	1.04	[2]			0.1324	[2]
+\hline 2360	di-i-propyl sulfide										
+\hline 2370	di-n-butyl sulfide	26.8	[1]	978	[1]	1.55	[1]				
+\hline 2380	tetrahydrothiophene	35.0	[1]	0.971	[1]	1.31	[2]			0.1409	[2]
+\hline 2390	pentamethylene sulfide										
+\hline 2400	dimethyl sulfoxide	43.0	[1]	1.991	[1]	1.93	[2]	0.76	[1]	0.2223	[2]
+\hline 2410	di-n-butyl sulfoxide										
+\hline 2420	sulfolane	35.5	{$[1]$}	10.286	{$[1] \mathrm{b}$}	2.27	[2]			0.1986	[2]
+\hline 2430	diethyl sulfite	29.0	[2]	0.839	[d]	1.28	[2]			0.1187	[2]
+\hline 2430	thiobis(2-ethanol)	52.9	$\lceil 2\rceil$	50.9	$\lceil\mathrm{~b}\rceil$	4.23	_2]			0.2061	_2]
+\hline 2450	dimethyl sulfate	40.1	[3]	1.76	[d]					0.1337	[2]
+\hline 2460	diethyl sulfate	34.6	[3]	1.6	[d]					0.1106	{$[2]$}
+\hline 2470	methanesulfonic acid	50.0	{$[2]$}	10.52	{$[\mathbf{r}]$}						
+\hline 2480	trimethyl phosphate	36.9	{$[1]$}	2.03	{$[1]$}	1.75	[2]				
+\hline 2490	triethyl phosphate	29.6	{$[1]$}	2.147	{$[1]$}	1.67	[2]				
+\hline 2500	tri-n-butyl phosphate	27.2	[1]	3.39	{$[1]$}	1.83	{$[1]$}				
+\hline 2510	hexamethyl phosphoramide	33.8	[1]	3.11	{$[1]$}	2.39	[1]				
+\hline 2520	hexamethyl thiophosphoramide	28.7	[b]	5.55	[b]						
+\hline 2530	hydrogen peroxide	73.7	[2]	1.15	[2]	1.85	[2]			0.4883	{$[2]$}
+\hline 2540	hydrogen fluoride	8.4	[2]	0.256	{$[c]$}	0.88	[2]	8.41	{$[\mathrm{bb}]$}	0.4274	{$[2]$}
+\hline 2550	sulfuric acid	52.4	[2]	23.55	[2]	3.84	[2]	0.07	{$[q]$}	0.3351	{$[2]$}
+\hline 2560	ammonia	21.1	[2]	0.131	[2]	0.99	[2]	5.71	{$[4] \mathrm{T}$}	0.4791	{$[2]$}
+\hline 2570	hydrazine	65.6	[2]	0.967	[2]	1.64	[2]			0.8936	[2]
+\hline 2580	sulfur dioxide	21.7	[2]	0.265	[2]	1.38	[2]			0.1957	{$[2]$}
+\hline 2590	thionyl chloride	32.3	$\lceil 2\rceil$	0.633	$\lceil 2]$	0.79	$\lceil 2\rceil$			0.1390	_2]
+\hline 2600	phosphorus oxychloride	32.0	[2]	1.043	[2]	1.24	[2]			0.1236	[2]
