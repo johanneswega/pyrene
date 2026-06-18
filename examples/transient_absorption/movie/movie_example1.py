@@ -1,10 +1,9 @@
 from pyrene.transient_absorption import Movie
 
-m = Movie(files=['data/dA1.npy'], y_cuts=[(200, 500)], ylim=[-5.2, 5.2], scatter=[(500, 600)],
-          ma=[True], steady_state=[['data/abs.txt', (360, 700), -5.0, 'b', 'Abs.']])
-
-""" m.animate(0)
-from matplotlib import pyplot as plt
-plt.show() """
+m = Movie(files=['data/dA1.npy'], 
+          before=True,          # whether to plot slices before (optional)
+          y_cuts=[(200, 500)],  # time cuts
+          ylim=[-5.2, 6.2], 
+          scatter=[(500, 600)])
 
 m.render()

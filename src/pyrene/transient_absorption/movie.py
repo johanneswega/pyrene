@@ -5,7 +5,7 @@ from pyrene.plotter.plotter import Plotter
 from dataclasses import dataclass
 
 @dataclass
-class Movie(DataReader, Plotter, DataExporter):
+class Movie(DataReader, Plotter):
     """class to render movies of TA spectra"""
     # time in seconds of the movie 
     time : float = 10.0
@@ -13,6 +13,8 @@ class Movie(DataReader, Plotter, DataExporter):
     normall : bool = False
     # name of mp4 file
     movname : str = 'movie.mp4'
+    # whether to plot previous temporal slices
+    before : bool = False
 
     # automatically call read_data method from parent datareader after init
     def __post_init__(self):
@@ -27,11 +29,17 @@ class Movie(DataReader, Plotter, DataExporter):
         else:
             self.ylabel = r'$\Delta A / 10^{-3}$'
 
+        # initialize movenorm list
+        if self.norm or self.devide:
+            self.movnorm = [None for _ in self.files] 
+
         # read data for initial file
         self.read_data()
         # get delays to be plotted in movie
         self.delays = self.y[0]
         self.y_cuts = None
+        if self.norm:
+            self.devide = self.movnorm
         if not self.normall:
             self.norm = None
         else:
@@ -48,12 +56,28 @@ class Movie(DataReader, Plotter, DataExporter):
         # get title 
         time_title = self.get_delay_labels([self.delays[i]], title=True)
         print("dt = %s  |   %i/%i"%(time_title[0][14:], i+1, len(self.delays)))
+        self.alphas = [1.0 for _  in self.files]
+        ma = self.ma
+        lab = self.labels
         self.delay = [self.delays[i] for _ in self.files]
         self.read_data()
         self.plot_data(master_ax=self.ax)
+        
+        # plot previous time slices if wanted
+        if self.before:
+            self.no_labels = True
+            self.ma = [False for _ in self.files]
+            for j in range(len(self.delays[self.delays<self.delays[i]])):
+                self.alphas = [0.05 for _  in self.files]
+                self.delay = [self.delays[j] for _ in self.files]
+                self.read_data()
+                self.plot_data(master_ax=self.ax)
+            self.no_labels = False
+            self.labels = lab
+            self.ma = ma
+
         self.show_plot(self.ax, title=time_title[0])
         self.fig.tight_layout()
-        #plt.show()
 
     def render(self):
         anim = FuncAnimation(self.fig, func=self.animate, frames=len(self.delays), interval=1)
@@ -61,6 +85,3 @@ class Movie(DataReader, Plotter, DataExporter):
         writer = Writer(fps=round(len(self.delays)/self.time), metadata={'artist': 'Me'}, bitrate=2500)
         anim.save(self.movname, writer)
         plt.show()
-
-
-

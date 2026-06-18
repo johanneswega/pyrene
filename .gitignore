@@ -14,3 +14,7 @@ personal_notes.txt
 
 # stupid MacOS files
 .DS_Store
+
+# any movie files 
+*.mp4
+*.svg

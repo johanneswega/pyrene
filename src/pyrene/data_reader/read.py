@@ -14,7 +14,6 @@ class DataReader():
     norm : list = None
     # whether to normalize at a specific x-value
     norm_at : list = None
-    min_norm : list = None
     devide : list = None
 
     ### moving average ###
@@ -52,6 +51,9 @@ class DataReader():
     delay : list = None
     scatter : list = None
 
+    # temporary list to store normalization values for dA 
+    movnorm : list = None
+
     def read_data(self) -> None:
         """method to read/cut/normalize data"""
 
@@ -79,8 +81,6 @@ class DataReader():
                 self.norm_at = [self.norm_at[0] for _ in self.files]         
         if not self.norm: 
             self.norm = [False for _ in self.files]
-        if not self.min_norm:
-            self.min_norm = [False for _ in self.files]
         if not self.devide:
             self.devide = [False for _ in self.files]
         if not self.ma: 
@@ -196,17 +196,18 @@ class DataReader():
                 if self.norm_at:
                     from pyrene.standard.misc import find_index
                     if not self.contour:
-                        self.y[i] /= self.y[i][find_index(self.x[i], self.norm_at[i])]
+                        self.y[i] /= np.abs(self.y[i][find_index(self.x[i], self.norm_at[i])])
                     else:
-                        self.z[i] /= self.z[i][find_index(self.y[i], self.norm_at[i][1]), find_index(self.x[i], self.norm_at[i][0])] 
+                        if self.movnorm:
+                            self.movnorm[i] = np.abs(self.z[i][find_index(self.y[i], self.norm_at[i][1]), find_index(self.x[i], self.norm_at[i][0])]) 
+                        self.z[i] /= np.abs(self.z[i][find_index(self.y[i], self.norm_at[i][1]), find_index(self.x[i], self.norm_at[i][0])])
                 else:
                     if not self.contour:
-                        self.y[i] /= np.nanmax(self.y[i]) 
+                        self.y[i] /= np.abs(np.nanmax(self.y[i]))
                     else:
-                        self.z[i] /= np.nanmax(self.z[i])
-
-            if self.min_norm[i]:
-                self.y[i] *= -1 
+                        if self.movnorm:
+                            self.movnorm[i] = np.abs(np.nanmax(self.z[i])) 
+                        self.z[i] /= np.abs(np.nanmax(self.z[i]))
 
             if self.devide[i]:
                 if not self.contour:

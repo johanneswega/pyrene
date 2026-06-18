@@ -36,6 +36,7 @@ class Plotter():
     nlevels : list = None
     lines : list = None
     titles : list = None
+    no_labels : bool = False
 
     def plot_data(self, master_ax=None, contour_index=0):
         """creates figure and axis object"""
@@ -51,6 +52,8 @@ class Plotter():
         # create labels
         if not self.labels:
             self.labels = [r'%s'%(s[:s.find('.')]) for s in self.files]
+        if self.no_labels:
+            self.labels = [None for _ in self.files]
 
         # create fill
         if not self.fill:
@@ -115,7 +118,7 @@ class Plotter():
 
         # plot steady state spectra
         if not self.contour:
-            if self.steady_state:
+            if self.steady_state and not self.no_labels:
                 self.plot_steady_state(ax)
 
     def set_contour_plot_settings(self):
