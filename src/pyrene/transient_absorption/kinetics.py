@@ -30,6 +30,32 @@ class Kinetics(DataReader, Plotter, DataExporter):
         self.read_data()
         self.plot_data()
 
+    def fit(self, file_index=0, model=None, p0=None):
+        """method to fit kinetic trace"""
+        x = self.x[file_index]
+        y = self.y[file_index]
+        xfine = np.linspace(np.min(x), np.max(x), 1000)
+        p, pcov = curve_fit(model, x, y, p0=p0)
+        self.ax.plot(xfine, model(xfine, *p), '-', color=self.colors[file_index], label=self.labels[file_index] + ' fit')
+
+        # plot residuals
+        fig, ax = plt.subplots(1,1, figsize=(7, 3))
+        ax.plot(x, model(x, *p) - y, '-', color=self.colors[file_index])
+        ax.set_ylabel('residuals')
+        ax.set_xscale(self.xscale)
+        ax.set_yscale(self.yscale)
+        ax.axhline(y=0, color='k')
+        ax.set_xlabel(self.xlabel)
+        fig.tight_layout()
+
+        # print results
+        print("")
+        print(f"### fitted file {self.files[file_index]} with {model.__name__} ###")
+        print("")
+        if "exp" in model.__name__:
+            from pyrene.standard.misc import print_results_of_exp_fit
+            print_results_of_exp_fit(self, model, p, pcov)
+
     def show(self):
         self.show_plot(self.ax)
         self.save_fig()

@@ -85,7 +85,7 @@ def two_gaussians(t, A1, t01, FWHM1, A2, t02, FWHM2):
     return gaussian(t, A1, t01, FWHM1) + gaussian(t, A2, t02, FWHM2)
 
 # mono exponential decay convolved with a gaussian IRF
-def gauss_conv_mono(t, A1, tau1, t0, FWHM):
+def gauss_conv_mono_exp(t, A1, tau1, t0, FWHM):
     sigma = FWHM/(2*(2*np.log(2))**0.5)
     term1 = (A1 / 2) * np.exp(-1 / tau1 * (t - t0))
     term2 = np.exp(0.5 * (1 / tau1**2) * sigma**2)
@@ -93,8 +93,17 @@ def gauss_conv_mono(t, A1, tau1, t0, FWHM):
     I_N1 = term1 * term2 * term3
     return I_N1
 
+# mono exponential decay convolved with a gaussian IRF
+def gauss_conv_mono_exp_with_bg(t, A1, tau1, t0, FWHM, bg):
+    sigma = FWHM/(2*(2*np.log(2))**0.5)
+    term1 = (A1 / 2) * np.exp(-1 / tau1 * (t - t0))
+    term2 = np.exp(0.5 * (1 / tau1**2) * sigma**2)
+    term3 = 1 + erf((t - t0 - (1 / tau1) * sigma**2) / (np.sqrt(2) * sigma))
+    I_N1 = term1 * term2 * term3
+    return I_N1 + bg
+
 # bi exponential decay convolved with a gaussian IRF
-def gauss_conv_bi(t, A1, tau1, A2, tau2, t0, FWHM):
+def gauss_conv_bi_exp(t, A1, tau1, A2, tau2, t0, FWHM):
     sigma = FWHM/(2*(2*np.log(2))**0.5)
     term1 = A1 / 2 * np.exp(-1 / tau1 * (t - t0))
     term2 = np.exp(0.5 * (1 / tau1**2) * sigma**2)
@@ -107,8 +116,22 @@ def gauss_conv_bi(t, A1, tau1, A2, tau2, t0, FWHM):
     I_N2 = term1 * term2 * term3 + term4 * term5 * term6
     return I_N2
 
+# bi exponential decay convolved with a gaussian IRF
+def gauss_conv_bi_exp_with_bg(t, A1, tau1, A2, tau2, t0, FWHM, bg):
+    sigma = FWHM/(2*(2*np.log(2))**0.5)
+    term1 = A1 / 2 * np.exp(-1 / tau1 * (t - t0))
+    term2 = np.exp(0.5 * (1 / tau1**2) * sigma**2)
+    term3 = 1 + erf((t - t0 - (1 / tau1) * sigma**2) / (np.sqrt(2) * sigma))
+    
+    term4 = A2 / 2 * np.exp(-1 / tau2 * (t - t0))
+    term5 = np.exp(0.5 * (1 / tau2**2) * sigma**2)
+    term6 = 1 + erf((t - t0 - (1 / tau2) * sigma**2) / (np.sqrt(2) * sigma))
+    
+    I_N2 = term1 * term2 * term3 + term4 * term5 * term6
+    return I_N2 + bg
+
 # tri exponential decay convolved with a gaussian IRF
-def gauss_conv_tri(t, A1, tau1, A2, tau2, A3, tau3, t0, sigma, FWHM):
+def gauss_conv_tri_exp(t, A1, tau1, A2, tau2, A3, tau3, t0, FWHM):
     sigma = FWHM/(2*(2*np.log(2))**0.5)
     term1 = A1 / 2 * np.exp(-1 / tau1 * (t - t0))
     term2 = np.exp(0.5 * (1 / tau1**2) * sigma**2)

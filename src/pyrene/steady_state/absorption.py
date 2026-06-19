@@ -24,9 +24,9 @@ class Absorption(DataReader, Plotter, DataExporter):
         if not self.c:
             if not self.norm[0]:
                 self.ylabel = 'absorbance'
-            if self.devide[0]:
+            elif self.devide[0]:
                 self.ylabel = 'norm. absorbance'
-            if self.TDM:
+            elif self.TDM:
                 self.ylabel = r'$\varepsilon(\tilde{\nu}) / \tilde{\nu}$'
             else:
                 self.ylabel = 'norm. absorbance'

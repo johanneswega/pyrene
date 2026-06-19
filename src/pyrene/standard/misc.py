@@ -339,3 +339,38 @@ def export(fname, spectra=None, kinetics=None, experiment='femto', t_cuts=None, 
                 header = 'time / ns,      TA / mOD'
             np.savetxt(label, np.column_stack([t, dA[:, find_index(wl, kinetics[i])]]),
             header=header, delimiter=',')
+
+def print_results_of_exp_fit(self, model, p, pcov):
+    if "mono" in model.__name__:
+        n_exp = 1
+    if "bi" in model.__name__:
+        n_exp = 2
+    if "tri" in model.__name__:
+        n_exp = 3
+    # get fit parameters
+    amps = np.asarray([p[2*i] for i in range(n_exp)])
+    taus = np.asarray([p[2*i+1] for i in range(n_exp)])
+    amp_frac = np.abs(amps)
+    amp_frac /= amp_frac.sum()
+    area_frac = np.abs(amps * taus)
+    area_frac /= area_frac.sum()
+    # print fit results
+    for i in range(n_exp):
+        A = amps[i]
+        tau = taus[i]
+        tau_err = np.sqrt(pcov[2*i+1, 2*i+1])
+        tau_label = self.get_delay_labels([tau])[0]
+        tau_err_label = self.get_delay_labels([tau_err])[0]
+        print(f"tau{i+1} = {tau_label} ± {tau_err_label}")
+        print(f"A{i+1} = {A:.3g}")
+        print("")
+    if n_exp>1:
+        print("Amplitude fractions:")
+        for i, frac in enumerate(amp_frac, start=1):
+            print(f"  Comp{i}: {100*frac:.1f}%")
+
+        print("")
+        print("Area fractions:")
+        for i, frac in enumerate(area_frac, start=1):
+            print(f"  Comp{i}: {100*frac:.1f}%")
+        print("")    

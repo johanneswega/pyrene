@@ -6,4 +6,5 @@ c = Contour(files=['data/dA1.npy'],
             scale=[(-30, 30)],
             lines=[True],
             yscale='symlog')
+c.export()
 c.show()

@@ -6,5 +6,4 @@ a = Absorption(
     wn=True,
     colors=['r'],
     labels=['your molecule'])
-
 a.show()

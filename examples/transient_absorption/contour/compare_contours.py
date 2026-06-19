@@ -10,4 +10,5 @@ c = Contour(files=['data/dA1.npy', 'data/dA2.npy'],
             extend=['both'],
             savefig='test.svg',
             yscale='symlog')
+c.export()
 c.show()

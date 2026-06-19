@@ -15,6 +15,7 @@ class Spectra(DataReader, Plotter, DataExporter):
     # e.g. steady_state_ax = [[s1, s2], [s3]]
     # s1 and s2 will be plotted in ax[0] while s3 will be plotted in ax[1]
     steady_state_ax : list = None
+    export_overview : bool = False
 
     # automatically call read_data method from parent datareader after init
     def __post_init__(self):
@@ -54,6 +55,8 @@ class Spectra(DataReader, Plotter, DataExporter):
                     self.plot_data()
                 else:
                     self.plot_data(master_ax=self.ax[i])
+                if self.export_overview:
+                    self.export()
 
     def show(self):
         if self.overview:

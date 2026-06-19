@@ -30,7 +30,7 @@ a.show()
 a = Absorption(
     files=files,
     figsize=(4, 8),
-    waterfall=2,
+    waterfall=1.5,
     fill=[True for _ in files],
     yticks=False,
     x_cuts=[(550, 800) for _ in files],
