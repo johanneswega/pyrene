@@ -16,7 +16,7 @@ class Contour(DataReader, Plotter, DataExporter):
         self.read_data()
         self.set_contour_plot_settings()
 
-        if self.norm or self.devide:
+        if self.norm[0] or self.devide[0]:
             self.zlabel = r'norm. $\Delta A$'
         else:
             self.zlabel = r'$\Delta A / 10^{-3}$'
@@ -37,12 +37,9 @@ class Contour(DataReader, Plotter, DataExporter):
 
     def show(self):
         if len(self.files)==1:
-            self.show_plot(self.ax)
+            self.show_plot(self.ax, title=self.titles[0])
         else:
             for i in range(len(self.files)):
-                if self.titles:
-                    self.show_plot(self.ax[i], title=self.titles[i])
-                else:
-                    self.show_plot(self.ax[i])
+                self.show_plot(self.ax[i], title=self.titles[i])
         self.save_fig()
         plt.show()

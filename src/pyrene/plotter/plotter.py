@@ -68,6 +68,7 @@ class Plotter():
         self.markersize = self.set_standard_value(self.markersize, default=6)
         self.linewidth = self.set_standard_value(self.linewidth, default=1.7)
         self.alphas =  self.set_standard_value(self.alphas, default=1.0)
+        self.titles =  self.set_standard_value(self.titles, default=None)
 
         # put zeroline through axis
         if self.zeroline:

@@ -4,16 +4,19 @@ np.seterr(divide='ignore')
 import os
 plt.style.use(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'style.mplstyle'))
 
-def figure_spectum(figsize=(8,5), IR=False):
+def figure_spectum(figsize=(8,5), IR=False, wn=True):
     """Creates standard spectrum figure (wavenumber vs. y) with double axis (wavelength on top) if IR==False
         If IR == True: no double axis"""
     fig, ax = plt.subplots(1,1,figsize=figsize)
-    if IR==False:
-        ax.set_xlabel(r'$\tilde{\nu} / 10^{3}\,\text{cm}^{-1}$')
-        ax.invert_xaxis()    
-        ax.axhline(y=0, color='k')
-        axsec = ax.secondary_xaxis('top', functions=(lambda x: (1/x)*10**4, lambda x: (1/x)*10**4))
-        axsec.set_xlabel(r'$\lambda / $ nm') 
+    if not IR:
+        if wn:
+            ax.set_xlabel(r'$\tilde{\nu} / 10^{3}\,\text{cm}^{-1}$')
+            ax.invert_xaxis()    
+            ax.axhline(y=0, color='k')
+            axsec = ax.secondary_xaxis('top', functions=(lambda x: (1/x)*10**4, lambda x: (1/x)*10**4))
+            axsec.set_xlabel(r'$\lambda / $ nm') 
+        else:
+            ax.set_xlabel(r'$\lambda / $ nm')
     else:
         ax.set_xlabel(r'$\tilde{\nu} / \text{cm}^{-1}$')
     ax.axhline(y=0, color='k')
