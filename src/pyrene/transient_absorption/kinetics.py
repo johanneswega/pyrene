@@ -30,33 +30,68 @@ class Kinetics(DataReader, Plotter, DataExporter):
         self.read_data()
         self.plot_data()
 
-    def fit(self, file_index=0, model=None, p0=None):
+    def fit(self, file_index=0, model=None, p0=None, show_res=True, error=None):
         """method to fit kinetic trace"""
         x = self.x[file_index]
         y = self.y[file_index]
         xfine = np.linspace(np.min(x), np.max(x), 1000)
-        p, pcov = curve_fit(model, x, y, p0=p0)
-        self.ax.plot(xfine, model(xfine, *p), '-', color=self.colors[file_index], label=self.labels[file_index] + ' fit')
+
+        try:
+            if not error:
+                p, pcov = curve_fit(model, x, y, p0=p0)
+            else:
+                # provide .npy error file 
+                from pyrene.standard.misc import load, find_index
+                t, wl, Err = load(error)
+                sigma = Err[:, find_index(wl, self.wavelength[file_index])]
+                if self.x_cuts[0]:
+                    sigma = sigma[(t>self.x_cuts[file_index][0])&(t<self.x_cuts[file_index][1])]
+                p, pcov = curve_fit(model, x, y, p0=p0, sigma=sigma, absolute_sigma=True)
+        except Exception as e:
+            print("")
+            print(f"### fit failed for file {self.files[file_index]}###")
+            print(f"Error: {e}")
+            print("")
+            return [], [], 1e3
+
+        if not error:
+            self.ax.plot(xfine, model(xfine, *p), '-', color=self.colors[file_index], label=self.labels[file_index] + ' fit')
+        else:
+            chi2 = (1/(len(y) - len(p)))*np.sum(((y - model(x, *p))/sigma)**2)
+            self.ax.plot(xfine, model(xfine, *p), '-', color=self.colors[file_index], label=self.labels[file_index] + r' fit ($\chi^2_\nu = %.3g$)'%(chi2))
 
         # plot residuals
-        fig, ax = plt.subplots(1,1, figsize=(7, 3))
-        ax.plot(x, model(x, *p) - y, '-', color=self.colors[file_index])
-        ax.set_ylabel('residuals')
-        ax.set_xscale(self.xscale)
-        ax.set_yscale(self.yscale)
-        ax.axhline(y=0, color='k')
-        ax.set_xlabel(self.xlabel)
-        fig.tight_layout()
+        if show_res:
+            fig, ax = plt.subplots(1, 1, figsize=(7, 3))
+            ax.plot(x, model(x, *p) - y, '-', color=self.colors[file_index])
+            ax.set_ylabel('residuals')
+            ax.set_xscale(self.xscale)
+            ax.set_yscale(self.yscale)
+            ax.axhline(y=0, color='k')
+            ax.set_xlabel(self.xlabel)
+            fig.tight_layout()
 
         # print results
         print("")
         print(f"### fitted file {self.files[file_index]} with {model.__name__} ###")
         print("")
+
         if "exp" in model.__name__:
             from pyrene.standard.misc import print_results_of_exp_fit
             print_results_of_exp_fit(self, model, p, pcov)
 
+        if not error:
+            return p, np.array([pcov[i,i]**(0.5) for i in range(len(p))]), (1/(len(y) - len(p)))*np.sum(((y - model(x, *p)))**2)
+        else:
+            return p, np.array([pcov[i,i]**(0.5) for i in range(len(p))]), chi2
+
     def show(self):
         self.show_plot(self.ax)
         self.save_fig()
-        plt.show()
+        if not self.show_only_for_short_time:
+            plt.show()
+        else:
+            plt.show(block=False)  
+            plt.pause(0.1)     
+            plt.close(self.fig)              
+            plt.pause(0.05)         

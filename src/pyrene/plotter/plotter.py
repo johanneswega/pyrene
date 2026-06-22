@@ -32,6 +32,7 @@ class Plotter():
     cmap : list = None
     cbar : list = None
     white : list = None
+    abs_white : list = None
     extend : bool = False
     nlevels : list = None
     lines : list = None
@@ -39,6 +40,7 @@ class Plotter():
     no_labels : bool = False
     markersize : list = None
     linewidth : list = None
+    show_only_for_short_time : bool = False
 
     def plot_data(self, master_ax=None, contour_index=0):
         """creates figure and axis object"""
@@ -101,11 +103,17 @@ class Plotter():
             colors = cmap(np.linspace(0, 1, self.nlevels[contour_index]))
             if self.white[contour_index]:
                 nwhite = self.white[contour_index]
-                mid = len(colors) // 2
-                colors[mid - nwhite : mid + nwhite + 1] = np.nan
+                if not self.abs_white[contour_index]:
+                    mid = len(colors) // 2
+                    colors[mid - nwhite : mid + nwhite + 1] = np.nan
+                else:
+                    colors[:nwhite] = np.nan
             if self.lines[contour_index]:
                 if self.white[contour_index]:
-                    line_levels = np.concatenate([levels[:mid-nwhite],levels[mid+nwhite+1:]])
+                    if not self.abs_white[contour_index]:
+                        line_levels = np.concatenate([levels[:mid-nwhite],levels[mid+nwhite+1:]])
+                    else:
+                        line_levels = levels[nwhite:]
                     ax.contour(self.x[contour_index], self.y[contour_index], self.z[contour_index], levels=line_levels, linewidths=0.5, alpha=0.2, linestyles='-', colors='k')
                 else:
                     ax.contour(self.x[contour_index], self.y[contour_index], self.z[contour_index], levels=levels, linewidths=0.5, alpha=0.2, linestyles='-', colors='k')                    

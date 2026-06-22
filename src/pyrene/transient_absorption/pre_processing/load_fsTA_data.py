@@ -2,16 +2,19 @@ import numpy as np
 
 def load_fsTA_file(file, error=False):
     # get the number of scans 
+    skiprows = 0
     with open(file, 'r') as f:
         for line in f: 
             if r'scans' in line.split():
                 n_scans = int(line.split()[-1])
+            if line.startswith('%'):
+                skiprows+=1
 
     # get shots
-    nshots = np.loadtxt(file, usecols=[1], skiprows=20)[0]
+    nshots = np.loadtxt(file, usecols=[1], skiprows=skiprows)[0]
 
     # get time axis 
-    data = np.loadtxt(file, skiprows=20, usecols=[0])
+    data = np.loadtxt(file, skiprows=skiprows, usecols=[0])
     dt = np.split(data, n_scans)[0]
 
     # get data frame
@@ -26,7 +29,7 @@ def load_fsTA_file(file, error=False):
         indices = [3 + 2*n for n in range(520)]
     
     # load correct coloumns
-    df = np.loadtxt(file, skiprows=20, usecols=indices)
+    df = np.loadtxt(file, skiprows=skiprows, usecols=indices)
     # convert from µOD to mOD
     df = df/1000
     # convert RMS to error 
