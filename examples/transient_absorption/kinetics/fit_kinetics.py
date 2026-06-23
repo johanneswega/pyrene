@@ -2,9 +2,12 @@ from pyrene.transient_absorption import Kinetics
 
 k = Kinetics(files=['data/dA1.npy'], 
              wavelength=[350],
+             figsize=[6, 3.5],
+             outside=True,
              marker=['o'],
              markersize=[3],
              alphas=[0.3], 
+             savefig='kinetics_fit.png',
              x_cuts=[(0.3, 1800)],
              xscale='log')
 

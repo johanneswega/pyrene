@@ -65,6 +65,8 @@ You can then activate the environment:
 source .venv/bin/activate
 ```
 
+(or on Windows: `.venv\Scripts\activate.bat`)
+
 ### Alternative installation (no uv required)
 
 ```bash
@@ -323,14 +325,16 @@ are compared automatically across different subplots:
 
 the delays to be plotted can de specified using the `delay` argument as list.
 
-- **ToDo** `Kinetics` — kinetic traces at selected wavelengths
-
-<p align="center">
-  <img src=".pics/kinetics.png" width="350">
-</p>
+- `Kinetics` — plots kinetic traces of TA files at speciefied wavelengths
 
 <p align="center">
   <img src=".pics/compare_kinetics.png" width="350">
+</p>
+
+also includes a method to fit kinetics to a given model function (cf. `examples/transient_absorption/fit_kinetics.py`):
+
+<p align="center">
+  <img src=".pics/kinetics_fit.png" width="350">
 </p>
 
 - `Contour` — contour maps of TA datasets
@@ -365,7 +369,9 @@ if multiple files are specified:
   <img src=".pics/2DIR.png" width="350">
 </p>
 
-To use these classes, the data first needs to be converted into a `.npy` file containing the time, wavelength, and ΔA arrays. Examples on how to generate these `.npy` files from raw `.txt` TA data can be found in the `examples` folder.
+To use these classes, the data first needs to be converted into a `.npy` file containing the time, wavelength, and ΔA arrays. Examples on how to generate these `.npy` files from raw `.txt` TA data can be found in the `examples` folder. 
+
+All classes also work with TRIR data upon setting `IR=True`. Here, one can also directly load a `.pdat` file.
  
 ---
 
