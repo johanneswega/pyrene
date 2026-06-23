@@ -107,6 +107,11 @@ class GlobalAnalysis(DataReader, Plotter, DataExporter):
                         cmap=['RdBu_r', 'RdBu_r', 'seismic'], experiment=self.experiment,
                         scatter=[self.scatter[i]], extend=['both'], yscale=self.yscale, IR=self.IR,
                         lines=[True, True, False], zeroline=False, savefig=self.name + '_global_analysis/' + '/fit.svg')
+            if self.scatter[self.current_file]!=None:
+                import matplotlib.patches as patches
+                rect = [(1/self.scatter[self.current_file][1])*10**4, (1/self.scatter[self.current_file][0])*10**4]
+                c.ax[2].add_patch(patches.Rectangle((rect[0], c.ax[2].get_ylim()[0]), rect[1]-rect[0], c.ax[2].get_ylim()[1]-c.ax[2].get_ylim()[0], facecolor='white', zorder=2))
+                c.ax[1].add_patch(patches.Rectangle((rect[0], c.ax[1].get_ylim()[0]), rect[1]-rect[0], c.ax[1].get_ylim()[1]-c.ax[1].get_ylim()[0], facecolor='white', zorder=2))
             c.show()
 
             # plot fitted traces at selected wavelengths
@@ -306,6 +311,12 @@ class GlobalAnalysis(DataReader, Plotter, DataExporter):
             ax[0].set_ylabel(r'Res.')
         else:
             ax[0].set_ylabel(r'Res. / $\sigma$')
+        ymin, ymax = ax[0].get_ylim()
+        if abs(ymin)>ymax:
+            m = abs(ymin)
+        else:
+            m = ymax
+        ax[0].set_ylim([-m, m])
         ax[1].set_ylabel(r'$\Delta{A} / 10^{-3}$')
         ax[1].axhline(y=0, color='k')
         ax[1].legend(loc='center left', bbox_to_anchor=(1, 0.5), fontsize=9)
@@ -352,14 +363,13 @@ class GlobalAnalysis(DataReader, Plotter, DataExporter):
 
         # spectra
         for i in range(len(self.C[0,:])):
-            ax[1].plot(l, EAS[i,:], '-', color=col[i], label='%s'%(dic[i]), zorder=1)
+            ax[1].plot(l, EAS[i,:], '-', color=col[i], zorder=1)
             if not self.IR:
                 np.savetxt(self.name + '_global_analysis/' + '%s.txt'%(dic[i]), np.column_stack([l, (1/l)*10**4, EAS[i,:]]), delimiter=',',
                             header='wavelength / nm, wavenumber / 10^3 cm-1, EADS / mOD')
             else:
                 np.savetxt(self.name + '_global_analysis/' + '%s.txt'%(dic[i]), np.column_stack([(1/l)*10**4, l, EAS[i,:]]), delimiter=',',
                             header='wavelength / µm, wavenumber / cm-1, EADS / mOD')                
-        ax[1].legend()
         ax[1].axhline(y=0, color='k')
         if self.IR==False:
             ax[1].invert_xaxis()
