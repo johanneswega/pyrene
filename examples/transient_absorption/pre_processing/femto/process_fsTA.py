@@ -10,7 +10,7 @@ limits = [0, 500]
 # fit parameters (scale, shift)
 p0 = [0.947, 274]
 # wether to do automatic fit for pixel to lambda or pick points by hand
-auto = False
+auto = True
 # scale for contour plots
 scale = [-20, 20]
 # wether to exclude any scan 

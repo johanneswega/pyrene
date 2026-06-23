@@ -14,6 +14,11 @@ def cm_to_fs(val):
 def cm_to_ps(val):
     return (sc.c * (val*100))*10**(-12)
 
+# round to singificant digit
+def round_to_significant_digit(x, sig=2):
+    x = np.asarray(x)
+    return np.where(x == 0, 0, np.round(x, sig - np.floor(np.log10(np.abs(x))).astype(int) - 1))
+
 # FT from ps to cm-1
 def FT_ps_to_cm(t, E):
     # Do the FFT

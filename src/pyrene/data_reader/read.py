@@ -51,6 +51,7 @@ class DataReader():
     delay : list = None
     scatter : list = None
     wavelength : list = None
+    slicing : list = None
 
     # temporary list to store normalization values for dA 
     movnorm : list = None
@@ -82,6 +83,7 @@ class DataReader():
         self.ma = self.set_standard_value(self.ma, default=False)
         self.ma_npoints = self.set_standard_value(self.ma_npoints, default=5)
         self.scatter = self.set_standard_value(self.scatter, default=False)
+        self.slicing = self.set_standard_value(self.slicing, default=False)
 
         ### loop through files ###
         for i in range(len(self.files)):
@@ -135,7 +137,12 @@ class DataReader():
                         self.y[i] = data[:,2]                       
                     else:
                         self.x[i] = data[:,1]
-                        self.y[i] = data[:,-1]                           
+                        self.y[i] = data[:,-1]      
+
+            # slice 2D countour along t if wanted
+            if self.slicing[i]:
+                self.z[i] = self.z[i][0::self.slicing[i],:]
+                self.y[i] = self.y[i][0::self.slicing[i]]                                     
 
             # cut data if wanted
             if self.x_cuts[i]:

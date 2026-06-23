@@ -46,6 +46,7 @@ class Movie(DataReader, Plotter):
             self.norm = [True for _ in self.files]
         self.norm_at = None
         self.contour = False
+        self.slicing = None
 
         # generate figure
         self.fig, self.ax = plt.subplots(1, 1, figsize=self.figsize)

@@ -16,13 +16,21 @@ def onclick(event, x, y, ax, fig):
         # Refresh the plot
         fig.canvas.draw()
 
-def pixel_to_lambda(WL_file='WL.dat', Ho_file='HOLMIUM.dat', lim=[0, 500], p0=[0.947, 274], auto=True):
+def pixel_to_lambda(WL_file='WL.dat', Ho_file='HOLMIUM.dat', lim=[0, 500], p0=[0.947, 274], auto=True, nano=False):
     # read data 
-    WL = np.loadtxt(WL_file)    
-    Ho_TA = np.loadtxt(Ho_file)
+    if nano:
+        WL = np.loadtxt(WL_file, skiprows=1)    
+        Ho_TA = np.loadtxt(Ho_file, skiprows=1)
+    else:
+        WL = np.loadtxt(WL_file)    
+        Ho_TA = np.loadtxt(Ho_file)        
     pixel = Ho_TA[:,0] 
-    I_Ho = Ho_TA[:,2]
-    I_WL = WL[:,2]
+    if nano:
+        I_Ho = Ho_TA[:,1]
+        I_WL = WL[:,1]
+    else:
+        I_Ho = Ho_TA[:,2]
+        I_WL = WL[:,2]        
     # make negative values positive if present
     I_Ho[I_Ho<0] = -1*I_Ho[I_Ho<0]
     I_WL[I_WL<0] = -1*I_WL[I_WL<0]
