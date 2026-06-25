@@ -216,7 +216,7 @@ class Absorption(DataReader, Plotter, DataExporter):
         from pyrene.standard.figures import solvchrom_figures
         
         # get wavenumber at maxima
-        wns = np.array([self.x[i][self.y[i]==np.max(self.y[i])] for i in range(len(self.files))])
+        wns = np.array([self.x[i][self.y[i]==np.max(self.y[i])][0] for i in range(len(self.files))])
 
         # plot and get solvent parameters
         n, er, fe, fn, df = solvchrom_figures(wns, self.labels, self.colors, label='abs', 
@@ -315,4 +315,4 @@ if __name__ == "__main__":
     a = Absorption(files=files, x_cuts=[(300, 700), (300, 700)], 
                    labels=['1', '2'], yticks=False, baseline_at=[700, 700], 
                    colors=['b', 'r'])
-    plt.show()
+    a.show()

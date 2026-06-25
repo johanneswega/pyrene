@@ -23,6 +23,7 @@ class DataReader():
     ### formating options ###
     delimiter: list = None
     skiprows: list = None
+    skipfooter : list = None
     usecols : list = None
 
     ### baseline correction ###
@@ -44,6 +45,9 @@ class DataReader():
     # if emission data 
     em : bool = False
     corr: bool = True
+
+    ### tcspc ###
+    tcspc : bool = False
 
     ### transient absorption data reading arguments ### 
     two_dim : bool = False
@@ -72,6 +76,7 @@ class DataReader():
         # set_standard value method is implemented in plotter class
         self.delimiter = self.set_standard_value(self.delimiter, default=',')
         self.skiprows = self.set_standard_value(self.skiprows, default=2)
+        self.skipfooter = self.set_standard_value(self.skipfooter, default=0)
         self.usecols = self.set_standard_value(self.usecols, default=(0,1))
         self.x_cuts = self.set_standard_value(self.x_cuts, default=False)
         self.y_cuts = self.set_standard_value(self.y_cuts, default=False)
@@ -111,6 +116,12 @@ class DataReader():
                     self.x[i] = wl
                     self.y[i] = t
                 self.z[i] = dA
+            ### for TCSPC data ###
+            elif self.tcspc:
+                data = np.genfromtxt(self.files[i], skip_header=self.skiprows[i], delimiter=self.delimiter[i], skip_footer=self.skipfooter[i])
+                self.x[i] = data[:,0]
+                self.y[i] = data[:,1]   
+                
             ### 1D Data = standard spectra ###
             else:
                 if not '.txt' in self.files[i]:
@@ -184,6 +195,18 @@ class DataReader():
                 else:
                     self.y[i] /= wn
 
+            # shift tcspc such that maximum of trace is at dt = 0
+            if self.tcspc: 
+                self.x[i] -= self.x[i][self.y[i]==np.max(self.y[i])][0]
+                # subtract background
+                if self.compare:
+                    # only take counts larger than zero
+                    mask = self.y[i]>0
+                    x = self.x[i][mask]
+                    y = self.y[i][mask]
+                    # calculate background 
+                    self.y[i] -= np.nanmean(y[x<-3.0])
+
             # convert absorbance to absorptance 
             if self.absorptance: 
                 self.y[i] = 1 - 10**(-self.y[i])
@@ -200,6 +223,8 @@ class DataReader():
                         self.z[i] /= np.abs(self.z[i][find_index(self.y[i], self.norm_at[i][1]), find_index(self.x[i], self.norm_at[i][0])])
                 else:
                     if not self.contour:
+                        if self.tcspc:
+                            self.norm_value.append(np.abs(np.nanmax(self.y[i])))
                         self.y[i] /= np.abs(np.nanmax(self.y[i]))
                     else:
                         if self.movnorm:

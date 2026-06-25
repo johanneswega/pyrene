@@ -60,12 +60,22 @@ def main():
             substring = 'eta '
             index = solv.index(substring) + len(substring)
             eta = float(solv[index:])
-            # go through all solvents and print solvents within +- 10 % of eps
+            # go through all solvents and print solvents within +- 10 % of eta
             for i in range(len(visd[:,0])):
                 if visd[i,4]=='':
                     continue
                 if 0.9*eta <= float(visd[i,4]) <= 1.1*eta:
                     print('%s,  eta = %.4g'%(visd[i,1], float(visd[i,4])))
+        if 'n' in solv:
+            substring = 'n '
+            index = solv.index(substring) + len(substring)
+            n = float(solv[index:])
+            # go through all solvents and print solvents within +- 10 % of n
+            for i in range(len(data[:,0])):
+                if data[i,8]=='':
+                    continue
+                if 0.9*n <= float(data[i,8]) <= 1.1*n:
+                    print('%s,  n = %.4g'%(data[i,1], float(data[i,8])))
         if 'df' in solv:
             substring = 'df '
             index = solv.index(substring) + len(substring)
@@ -170,3 +180,6 @@ def main():
                 starting with a in the database are listed."""%solv)
             
     print("")
+
+if __name__ == "__main__":
+    main()

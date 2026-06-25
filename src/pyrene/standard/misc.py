@@ -39,7 +39,7 @@ def print_params(p, pcov):
         print('%i. %.3g +- %.3g'%(i+1, p[i], err))
     print('')
 
-def sort_with_respect(sort_after, *args):
+def sort_with_respect(sort_after, *args, numpy=False):
     # Sort all lists based on sort_after
     sorted_lists = sorted(zip(sort_after, *args))  
     
@@ -47,7 +47,10 @@ def sort_with_respect(sort_after, *args):
     sorted_arrays = list(zip(*sorted_lists))  
 
     # Convert to numpy arrays and return
-    return tuple(np.array(arr).tolist() for arr in sorted_arrays)
+    if not numpy:
+        return tuple(np.array(arr).tolist() for arr in sorted_arrays)
+    else:
+        return tuple(np.array(arr) for arr in sorted_arrays)
     
 # Moving Average Filter
 def moving_average(x, window_size):
@@ -345,16 +348,22 @@ def export(fname, spectra=None, kinetics=None, experiment='femto', t_cuts=None, 
             np.savetxt(label, np.column_stack([t, dA[:, find_index(wl, kinetics[i])]]),
             header=header, delimiter=',')
 
-def print_results_of_exp_fit(self, model, p, pcov):
-    if "mono" in model.__name__:
-        n_exp = 1
-    if "bi" in model.__name__:
-        n_exp = 2
-    if "tri" in model.__name__:
-        n_exp = 3
+def print_results_of_exp_fit(self, model, p, pcov, nomodel=False):
+    if nomodel:
+        n_exp = int(len(p)/2)
+    else:
+        if "mono" in model.__name__:
+            n_exp = 1
+        if "bi" in model.__name__:
+            n_exp = 2
+        if "tri" in model.__name__:
+            n_exp = 3
+    # label to print 
+    label = ''
     # get fit parameters
     amps = np.asarray([p[2*i] for i in range(n_exp)])
     taus = np.asarray([p[2*i+1] for i in range(n_exp)])
+    tau_errs = np.asarray([pcov[2*i+1, 2*i+1] for i in range(n_exp)])
     amp_frac = np.abs(amps)
     amp_frac /= amp_frac.sum()
     area_frac = np.abs(amps * taus)
@@ -367,15 +376,22 @@ def print_results_of_exp_fit(self, model, p, pcov):
         tau_label = self.get_delay_labels([tau])[0]
         tau_err_label = self.get_delay_labels([tau_err])[0]
         print(f"tau{i+1} = {tau_label} ± {tau_err_label}")
-        print(f"A{i+1} = {A:.3g}")
-        print("")
-    if n_exp>1:
-        print("Amplitude fractions:")
-        for i, frac in enumerate(amp_frac, start=1):
-            print(f"  Comp{i}: {100*frac:.1f}%")
+        label += r' $\tau_%i$ = %s '%(i+1, tau_label)
+        if n_exp>1:
+            label += r'(%.2g'%(area_frac[i]*100) + ' \%),'
+            print(f"A{i+1} = {A:.3g}")
+            print(f"amplitude fraction : {amp_frac[i]*100 : .3g} %")
+            print(f"area fraction : {area_frac[i]*100 : .3g} %")
+            print("")
+    return label, taus, tau_errs, amp_frac, area_frac
 
-        print("")
-        print("Area fractions:")
-        for i, frac in enumerate(area_frac, start=1):
-            print(f"  Comp{i}: {100*frac:.1f}%")
-        print("")    
+# normalized autocorrelation function
+def acf(x):
+    x = np.asarray(x)
+    x = x - np.mean(x)
+
+    corr = np.correlate(x, x, mode='full')
+    # keep non-negative lags
+    corr = corr[corr.size // 2:]     
+    # normalize
+    return corr / corr[0]             

@@ -54,7 +54,7 @@ class Emission(DataReader, Plotter, DataExporter):
         from pyrene.standard.figures import solvchrom_figures          
         
         # get wavenumber at maxima
-        wns_em = np.array([self.x[i][self.y[i]==np.max(self.y[i])] for i in range(len(self.files))])
+        wns_em = np.array([self.x[i][self.y[i]==np.max(self.y[i])][0] for i in range(len(self.files))])
 
         # plot and get solvent parameters
         n, er, fe, fn, df = solvchrom_figures(wns_em, self.labels, self.colors, label='em', 

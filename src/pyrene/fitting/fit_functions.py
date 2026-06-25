@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.special import erf
 from scipy.special import wofz
+from scipy.signal import convolve as conv
 
 # chirp correction function
 def koboyashi(l, a, b, c):
@@ -234,6 +235,23 @@ def tri_exp(t, A1, tau1, A2, tau2, A3, tau3):
 # bi exponential decay with background
 def tri_exp_with_bg(t, A1, tau1, A2, tau2, A3, tau3, bg):
     return A1*np.exp(-t/tau1) + A2*np.exp(-t/tau2) + A3*np.exp(-t/tau3) + bg
+
+# convolve any model with an IRF
+def make_irf_convolved(model, IRF):
+
+    def model_conv(t, *params):
+        *pars, shift = params
+
+        IRF_int = np.interp(t, t + shift, IRF)
+
+        y = model(t, *pars)
+
+        y_conv = conv(y, IRF_int)
+        y_conv /= np.max(np.abs(y_conv))
+
+        return y_conv[:len(t)]
+
+    return model_conv
 
 # sec2 pulse
 def sech2_pulse(t, A, center, FWHM):

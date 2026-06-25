@@ -375,4 +375,19 @@ All classes also work with TRIR data upon setting `IR=True`. Here, one can also 
  
 ---
 
-**ToDo**: Add pictures, describe Echem module, TCSPC and MD, fit_functions, pyrene.standard.misc, pyrene.standard.figures
+### `pyrene.TCSPC` ###
+
+Contains the `TCSPC` class which can be used to compare different TCSPC traces as well as to fit individual traces with differnt models (both tail fit and iterative reconvolution with the experimental IRF are implemented). See `examples/TCSPC` on how to use the class.
+
+<p align="center">
+  <img src=".pics/ACN_fit.png" width="450">
+</p>
+
+
+<p align="center">
+  <img src=".pics/compare_TCSPC.png" width="250">
+</p>
+
+---
+
+**ToDo**: Add pictures, describe Echem module and MD
