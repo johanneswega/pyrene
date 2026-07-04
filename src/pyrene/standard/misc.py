@@ -145,10 +145,10 @@ def get_sorted_files(path):
     return np.array([path + '/' + i for i in files_sorted])
 
 # function to convert shida csv to txt to be used in absorption script
-def shida_to_txt(shida, ma=False, units='wn'):
+def shida_to_txt(shida, ma=False, units='wn', IR=False):
     data = np.loadtxt(shida, delimiter=',')
     if units=='wn':
-        wn = data[:, 0]
+        wn = data[:, 0] + 3
         wl = nm_to_kk(wn)
     else:
         wl = data[:, 0]
@@ -161,10 +161,16 @@ def shida_to_txt(shida, ma=False, units='wn'):
     # sort with respect to wavelengths
     #A = np.flip(A)
     #wn = np.flip(wn)
-    wl, wn, A = sort_with_respect(wl, wn, A)
-    np.savetxt('%s.txt'%(shida[:shida.find('.')]), 
-                np.column_stack([wl, wn, A]),
-                header='wavenlength / nm,    wavenumber / 10^3 cm-1,  absorbance', delimiter=',')
+    if IR:
+        wl, wn, A = sort_with_respect(wl, wn, A)
+        np.savetxt('%s.txt'%(shida[:shida.find('.')]), 
+                    np.column_stack([wl, wn, A]),
+                    header='wavenlength / µm,    wavenumber / cm-1,  absorbance', delimiter=',')
+    else:
+        wl, wn, A = sort_with_respect(wl, wn, A)
+        np.savetxt('%s.txt'%(shida[:shida.find('.')]), 
+                    np.column_stack([wl, wn, A]),
+                    header='wavenlength / nm,    wavenumber / 10^3 cm-1,  absorbance', delimiter=',')        
     
 def get_data(file, delimiter=',', skiprows=1, usecols=[0,1], xcuts=None):
     data = np.loadtxt(file, delimiter=delimiter, skiprows=skiprows, usecols=usecols)
@@ -198,6 +204,20 @@ def load(fname, t_cuts=None, wl_cuts=None):
         t = t[(t>t_cuts[0])&(t<t_cuts[1])]
     
     return t, wl, dA
+
+def stich_NIR_and_visTA(fileNIR, cutsNIR, filevis, cutsVIS, scale=1):
+    # file for time axis
+    t2, wl2, dA2 = load(fileNIR, wl_cuts=cutsNIR)
+    # file to be interpolated
+    t1, wl1, dA1 = load(filevis, wl_cuts=cutsVIS)
+
+    wl_stich = np.concatenate([wl1, wl2])
+    dA_stich = np.zeros((len(t1), len(wl_stich)))
+    for i in range(len(t1)):
+        dA_stich[i, :] = np.concatenate([dA1[i, :], scale*dA2[i,:]])
+
+    save('stitched.npy', t1, wl_stich, dA_stich)
+
 
 def interpolate_TA(file1, file2):
     # file for time axis

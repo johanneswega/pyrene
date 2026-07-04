@@ -389,5 +389,44 @@ Contains the `TCSPC` class which can be used to compare different TCSPC traces a
 </p>
 
 ---
+### `pyrene.electrochemistry`
 
-**ToDo**: Add pictures, describe Echem module and MD
+The `electrochemistry` module contains the `CV` class for plotting and analyzing cyclic voltammetry (CV) data.
+
+<p align="center">
+  <img src=".pics/CV.png" width="280">
+</p>
+
+Several example workflows can be found in `examples/electrochemistry/CV`.
+
+The module includes routines for determining the half-wave potential, ($E_{1/2}$):
+
+<p align="center">
+  <img src=".pics/halfwave.png" width="280">
+</p>
+
+as well as a variety of methods for analyzing the scan-rate dependence of the CV:
+
+<p align="center">
+  <img src=".pics/scanrates.png" width="300">
+</p>
+
+Like plotting the peak-potential separation:
+
+<p align="center">
+  <img src=".pics/peak_sep.png" width="280">
+</p>
+
+, the peak current ratio, determined via Cottrell fitting in the time domain following the method of Macedo *et al.* ([Anal. Chem. **2024**, 96, 1530–1537](https://pubs.acs.org/doi/10.1021/acs.analchem.3c04181)):
+
+<p align="center">
+  <img src=".pics/cottrell.png" width="280">
+</p>
+
+or performing a Randles–Ševčík analysis:
+
+<p align="center">
+  <img src=".pics/randles_sevcik.png" width="280">
+</p>
+
+---

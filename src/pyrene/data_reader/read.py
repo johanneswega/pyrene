@@ -49,6 +49,9 @@ class DataReader():
     ### tcspc ###
     tcspc : bool = False
 
+    ### CV ###
+    CV : bool = False
+
     ### transient absorption data reading arguments ### 
     two_dim : bool = False
     experiment : str = 'femto'
@@ -120,8 +123,14 @@ class DataReader():
             elif self.tcspc:
                 data = np.genfromtxt(self.files[i], skip_header=self.skiprows[i], delimiter=self.delimiter[i], skip_footer=self.skipfooter[i])
                 self.x[i] = data[:,0]
-                self.y[i] = data[:,1]   
-                
+                self.y[i] = data[:,1]  
+            ### CV data ### 
+            elif self.CV:
+                data = np.genfromtxt(self.files[i], delimiter=',', skip_header=6, skip_footer=1, encoding='utf-16', filling_values=np.nan) 
+                self.x[i] = data[:,0]
+                self.y[i] = data[:,1] 
+                if self.US:
+                     self.y[i] *= -1
             ### 1D Data = standard spectra ###
             else:
                 if not '.txt' in self.files[i]:
@@ -133,7 +142,8 @@ class DataReader():
                         # correct baseline
                         if self.baseline[i]:
                             base = np.loadtxt(self.baseline[i], skiprows=self.skiprows[i], delimiter=self.delimiter[i], usecols=self.usecols[i]) 
-                            self.y[i] -= base[:, 1] 
+                            base = base[:,1][(base[:,0]>self.x_cuts[i][0])&(base[:,0]<self.x_cuts[i][1])]
+                            self.y[i] -= base
                     else:
                         # load FTIR file
                         from brukeropus import read_opus

@@ -95,7 +95,7 @@ s.show()
 tx, RMS, nsamples = load_nsTA_file(file = [i for i in os.listdir() if 'SAMPLE' in i][0], error=True)
 Err = RMS / np.sqrt(nsamples)[:, None]  
 np.save('results/Err.npy', np.array([t, wl, Err], dtype=object))
-c = Contour(files=['results/Err.npy'], titles=['background subtracted'], extend=['both'], scale=[(-4, 4)], wn=False, nlevels=[31],
+c = Contour(files=['results/Err.npy'], titles=['error matrix'], extend=['both'], scale=[(-4, 4)], wn=False, nlevels=[31],
             yscale='symlog', ylim=[-10, 500e3], lines=[True], zeroline=True, experiment='nano', savefig='results/background_subtracted.png')
 c.show()
 

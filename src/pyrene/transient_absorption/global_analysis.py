@@ -365,7 +365,7 @@ class GlobalAnalysis(DataReader, Plotter, DataExporter):
         for i in range(len(self.C[0,:])):
             ax[1].plot(l, EAS[i,:], '-', color=col[i], zorder=1)
             if not self.IR:
-                np.savetxt(self.name + '_global_analysis/' + '%s.txt'%(dic[i]), np.column_stack([l, (1/l)*10**4, EAS[i,:]]), delimiter=',',
+                np.savetxt(self.name + '_global_analysis/' + '%s.txt'%(dic[i]), np.column_stack([(1/l)*10**4, l, EAS[i,:]]), delimiter=',',
                             header='wavelength / nm, wavenumber / 10^3 cm-1, EADS / mOD')
             else:
                 np.savetxt(self.name + '_global_analysis/' + '%s.txt'%(dic[i]), np.column_stack([(1/l)*10**4, l, EAS[i,:]]), delimiter=',',

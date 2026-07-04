@@ -34,6 +34,7 @@ class Spectra(DataReader, Plotter, DataExporter):
             ### for overview plot ###
             self.nfiles = self.files
             devide = self.devide
+
             if len(self.nfiles)>1:
                 self.fig, self.ax = plt.subplots(1, len(self.nfiles), figsize=self.figsize, sharey=True)
             for i in range(len(self.nfiles)):

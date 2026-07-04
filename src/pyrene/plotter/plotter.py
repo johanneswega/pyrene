@@ -11,6 +11,7 @@ class Plotter():
     ylabel : str = None
     xlabel : str = None
     yticks : bool = True
+    xticks : list = None
     yscale : str = 'linear'
     xscale : str = 'linear'
     ylim : list = None
@@ -84,7 +85,7 @@ class Plotter():
                     if self.wn:
                             self.x_ma[i] = 1e4/self.x_ma[i]
                     if self.marker[i]:
-                        ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], color=self.colors[i], alpha=0.5, 
+                        ax.plot(self.x[i], self.y[i] - self.waterfall * i, self.marker[i], color=self.colors[i], alpha=0.2, 
                                 markersize=self.markersize[i], linewidth=self.linewidth[i])
                         ax.plot(self.x_ma[i], self.y_ma[i] - self.waterfall * i, '-', label=self.labels[i], color=self.colors[i], linewidth=self.linewidth[i])
                     if self.fill[i]:
@@ -249,6 +250,8 @@ class Plotter():
             ax.set_title(title)
         if self.xscale:
             ax.set_xscale(self.xscale)
+        if self.xticks:
+            ax.set_xticks(self.xticks)
         if not self.yticks: 
             ax.set_yticks([])
         if not self.contour:  

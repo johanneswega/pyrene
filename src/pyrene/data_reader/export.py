@@ -69,6 +69,12 @@ class DataExporter():
                 np.savetxt('%s.txt'%(self.files[i][:self.files[i].find('.')]), 
                             np.column_stack([wl, wn, I_wl, I_wn]),
                             header=head, delimiter=',') 
+                
+            ### cyclic voltamemtry ###
+            if self.CV:
+                np.savetxt('%s.txt'%(self.files[i][:self.files[i].find('.')]), 
+                            np.column_stack([self.x[i], self.y[i]]),
+                            header=f'{self.xlabel}, {self.ylabel}', delimiter=',')                 
 
             ### transient absorption ###    
             if self.two_dim:
