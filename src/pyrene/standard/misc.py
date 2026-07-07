@@ -403,6 +403,20 @@ def print_results_of_exp_fit(self, model, p, pcov, nomodel=False):
             print(f"amplitude fraction : {amp_frac[i]*100 : .3g} %")
             print(f"area fraction : {area_frac[i]*100 : .3g} %")
             print("")
+    # averaged lifetime
+    if n_exp>1:
+        num = np.sum(amps * taus**2)
+        den = np.sum(amps * taus)
+        tau_avg = num / den
+        # covariance matrix of the lifetimes
+        cov_tau = pcov[1::2, 1::2]
+        # gradient d<tau>/dtau_i
+        grad = amps * (2 * taus * den - num) / den**2
+        # propagated uncertainty
+        tau_avg_err = np.sqrt(grad @ cov_tau @ grad)
+        tau_avg_label = self.get_delay_labels([tau_avg])[0]
+        tau_avg_err_label = self.get_delay_labels([tau_avg_err])[0]
+        print(f"Average lifetime = {tau_avg_label} ± {tau_avg_err_label}")
     return label, taus, tau_errs, amp_frac, area_frac
 
 # normalized autocorrelation function
