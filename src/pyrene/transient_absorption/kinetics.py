@@ -62,14 +62,24 @@ class Kinetics(DataReader, Plotter, DataExporter):
 
         # plot residuals
         if show_res:
-            fig, ax = plt.subplots(1, 1, figsize=(7, 3))
-            ax.plot(x, model(x, *p) - y, '-', color=self.colors[file_index])
-            ax.set_ylabel('residuals')
+            fig, ax = plt.subplots(1, 1, figsize=[self.figsize[0], 1])
+            if not error:
+                ax.set_ylabel('residuals')
+                ax.plot(x, model(x, *p) - y, '-', color=self.colors[file_index])
+                np.savetxt('fit.txt', np.column_stack([x, y, model(x, *p) - y]), 
+                           delimiter=',', header='time / ps, TA signal / mOD, fit / mOD, residuals / mOD')
+            else:
+                ax.set_ylabel('weighted residuals')
+                ax.plot(x, (model(x, *p) - y)/sigma, '-', color=self.colors[file_index])
+                np.savetxt('fit.txt', np.column_stack([x, y, model(x, *p) - y, (model(x, *p) - y)/sigma]), 
+                           delimiter=',', header='time / ps, TA signal / mOD, fit / mOD, residuals / mOD, weighted residuals')
             ax.set_xscale(self.xscale)
             ax.set_yscale(self.yscale)
             ax.axhline(y=0, color='k')
             ax.set_xlabel(self.xlabel)
-            fig.tight_layout()
+            #ax.set_ylim([-0.6, 0.6])
+            #fig.tight_layout()
+            fig.savefig('fit.svg', transparent=True)
 
         # print results
         print("")

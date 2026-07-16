@@ -369,6 +369,13 @@ def export(fname, spectra=None, kinetics=None, experiment='femto', t_cuts=None, 
             header=header, delimiter=',')
 
 def print_results_of_exp_fit(self, model, p, pcov, nomodel=False):
+    if "conv" in model.__name__:
+        if "bg" in model.__name__:
+            p = p[:-3]
+            pcov = pcov[:-3, :-3]
+        else:
+            p = p[:-2]
+            pcov = pcov[:-2, :-2]
     if nomodel:
         n_exp = int(len(p)/2)
     else:

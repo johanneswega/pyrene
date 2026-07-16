@@ -49,8 +49,9 @@ class Spectra(DataReader, Plotter, DataExporter):
                     self.steady_state = self.steady_state_ax[i]
                 self.files = [self.nfiles[i] for _ in self.delay]
                 self.labels = self.get_delay_labels(self.delay)
-                from pyrene.standard.misc import rainbow
-                self.colors = rainbow(self.delay, r=True)
+                if not self.colors:
+                    from pyrene.standard.misc import rainbow
+                    self.colors = rainbow(self.delay, r=True)
                 self.read_data()
                 if len(self.nfiles)==1:
                     self.plot_data()
