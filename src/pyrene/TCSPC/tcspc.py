@@ -13,6 +13,8 @@ class TCSPC(DataReader, Plotter, DataExporter):
     compare : bool = False
     # wether to plot also the fitted traces on top in the comparison plot
     plot_fit : bool = False
+    # t_bg time before which to calculate bg
+    t_bg : bool = False
 
     # automatically call read_data method from parent datareader after init
     def __post_init__(self):
@@ -93,7 +95,10 @@ class TCSPC(DataReader, Plotter, DataExporter):
         y = y[mask]
 
         # calculate background 
-        self.bg = np.nanmean(y[x<-3.0])
+        if self.t_bg:
+            self.bg = np.nanmean(y[x<self.t_bg])
+        else:
+            self.bg = np.nanmean(y[x<-3.0])
         ax[2].axhline(y=self.bg, linestyle='--', color='k')
 
         # plot raw data

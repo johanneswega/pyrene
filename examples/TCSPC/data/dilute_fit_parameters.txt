@@ -1,0 +1,2 @@
+# component lifetime / ns, error in lifetime / ns, amplitude fraction, area fraction
+2.937820878510330580e+00,6.936609758090490895e-06,1.000000000000000000e+00,1.000000000000000000e+00
