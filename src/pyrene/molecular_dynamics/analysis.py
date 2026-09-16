@@ -96,7 +96,7 @@ def histogram(files, colors, labels, f_type, nbins, width, figsize=(6, 3.5), out
     plt.show()
 
 # histogram plotter
-def histogram_stack(files, colors, labels, f_type, nbins, width, figsize=None, outside=True, ylim=False, save=None):
+def histogram_stack(files, colors, labels, f_type, nbins, width, figsize=None, outside=True, ylim=False, save=None, prob=False):
     # make figure
     if figsize==None:
         figsize = (6, len(files)*3)
@@ -104,8 +104,12 @@ def histogram_stack(files, colors, labels, f_type, nbins, width, figsize=None, o
     # get data and plot
     for i in range(len(files)):
         x, y = get_data(files[i], f_type)
-        ax[i].hist(y, nbins, color=colors[i], width=width, edgecolor='k', label=labels[i])
-        ax[i].set_ylabel(r'$N$')
+        if prob:
+            ax[i].hist(y, nbins, color=colors[i], width=width, edgecolor='k', label=labels[i], density=True)
+            ax[i].set_ylabel(r'$p$')
+        else:
+            ax[i].hist(y, nbins, color=colors[i], width=width, edgecolor='k', label=labels[i])
+            ax[i].set_ylabel(r'$N$')
         if outside==True:
             ax[i].legend(loc='center left', bbox_to_anchor=(1, 0.5), fontsize=10)
         else:
