@@ -215,7 +215,10 @@ class DataReader():
                     x = self.x[i][mask]
                     y = self.y[i][mask]
                     # calculate background 
-                    self.y[i] -= np.nanmean(y[x<-3.0])
+                    if not self.t_bg:
+                        self.y[i] -= np.nanmean(y[x<-3.0])
+                    else:
+                        self.y[i] -= np.nanmean(y[x<self.t_bg])
 
             # convert absorbance to absorptance 
             if self.absorptance: 

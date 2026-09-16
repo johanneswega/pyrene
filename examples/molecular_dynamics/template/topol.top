@@ -1,0 +1,25 @@
+[ defaults ]
+; nbfunc        comb-rule       gen-pairs        fudgeLJ   fudgeQQ
+1               2               yes             0.500000  0.833333
+
+[ atomtypes ]
+;name   bond_type     mass     charge   ptype   sigma         epsilon      
+ c3       c3          0.00000  0.00000   A     3.39771e-01   4.51035e-01
+ hc       hc          0.00000  0.00000   A     2.60018e-01   8.70272e-02
+ c1       c1          0.00000  0.00000   A     3.39967e-01   8.78640e-01 
+ n1       n1          0.00000  0.00000   A     3.25000e-01   7.11280e-01 
+ ca       ca          0.00000  0.00000   A     3.31521e-01   4.13379e-01
+ cc       cc          0.00000  0.00000   A     3.31521e-01   4.13379e-01
+ cd       cd          0.00000  0.00000   A     3.31521e-01   4.13379e-01
+ ha       ha          0.00000  0.00000   A     2.62548e-01   6.73624e-02
+
+#include "Py_Et_Py.itp"
+#include "ACN.itp"
+
+[ system ]
+Py_Et_Py in ACN
+
+[ molecules ]
+; Compound        nmols
+PYR               1
+ACN               1434

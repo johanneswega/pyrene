@@ -12,6 +12,7 @@ dependencies = [
     "mdanalysis>=2.10.0",
     "numpy>=2.4.6",
     "scipy>=1.17.1",
+    "statsmodels>=0.15.0",
     "xyzrender>=0.3.1",
 ]
 
