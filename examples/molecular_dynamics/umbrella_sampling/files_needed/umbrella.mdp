@@ -1,0 +1,59 @@
+integrator              = md
+dt                      = 0.001
+nsteps                  = 5500000
+continuation            = yes
+
+nstenergy               = 500
+nstlog                  = 500
+nstxout-compressed      = 500
+
+constraint_algorithm    = lincs
+constraints              = h-bonds
+lincs_iter               = 1
+lincs_order              = 4
+
+cutoff-scheme            = Verlet
+rcoulomb                = 1.2
+rvdw                    = 1.2
+rlist                   = 1.2
+
+coulombtype              = PME
+pme_order                = 4
+fourierspacing           = 0.16
+
+tcoupl                  = Nose-Hoover
+tc-grps                 = System
+tau_t                   = 0.5
+ref_t                   = 298.15
+
+pcoupl                  = no
+
+pbc                     = xyz
+
+DispCorr                = EnerPres
+
+gen_vel                 = no
+
+; ==========================================================
+; Umbrella sampling
+; ==========================================================
+
+pull                    = yes
+pull-ngroups            = 2
+
+pull-group1-name        = BPE
+pull-group2-name        = DPA
+
+pull-ncoords             = 1
+
+pull-coord1-type        = umbrella
+pull-coord1-geometry    = distance
+pull-coord1-groups      = 1 2
+pull-coord1-dim         = Y Y Y
+
+pull-coord1-init        = TARGET_DISTANCE
+pull-coord1-rate        = 0
+pull-coord1-k           = 1000
+
+pull-nstxout             = 500
+pull-nstfout             = 500

@@ -1,0 +1,99 @@
+; ==========================================================
+; BPE-DPA steered MD
+; BPE position-restrained near box center
+; DPA pulled away from BPE
+; ==========================================================
+
+; Run parameters
+integrator              = md
+dt                      = 0.002
+nsteps                  = 85000
+
+continuation            = yes
+
+; Output control
+nstenergy               = 500
+nstlog                  = 500
+nstxout-compressed      = 500
+
+; Bond parameters
+constraint_algorithm    = lincs
+constraints             = h-bonds
+lincs_iter              = 1
+lincs_order              = 4
+
+; Neighbor searching
+cutoff-scheme           = Verlet
+rcoulomb                = 1.2
+rvdw                    = 1.2
+rlist                   = 1.2
+
+; Electrostatics
+coulombtype              = PME
+pme_order                = 4
+fourierspacing           = 0.16
+
+; Temperature coupling
+tcoupl                  = Nose-Hoover
+tc-grps                 = System
+tau_t                   = 0.5
+ref_t                   = 298.15
+
+; No pressure coupling
+pcoupl                  = no
+
+; Periodic boundary conditions
+pbc                     = xyz
+
+; Dispersion correction
+DispCorr                = EnerPres
+
+; Velocity generation
+gen_vel                 = no
+
+
+; ==========================================================
+; PULLING
+; ==========================================================
+
+pull                    = yes
+
+pull-ngroups            = 2
+
+pull-group1-name        = BPE
+pull-group2-name        = DPA
+
+pull-ncoords             = 1
+
+
+; ==========================================================
+; COORDINATE 1
+; BPE-DPA COM distance
+; ==========================================================
+
+pull-coord1-type        = umbrella
+pull-coord1-geometry    = distance
+
+pull-coord1-groups      = 1 2
+
+pull-coord1-dim         = Y Y Y
+
+; Pulling force constant
+pull-coord1-k           = 1000
+
+; Pull DPA away from BPE
+pull-coord1-rate        = 0.01
+
+; Start from the current BPE-DPA distance
+pull-coord1-start       = yes
+
+; No additional offset
+pull-coord1-init        = 0
+
+
+; ==========================================================
+; Pull output
+; ==========================================================
+
+pull-nstxout            = 500
+pull-nstfout            = 500

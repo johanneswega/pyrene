@@ -6,13 +6,7 @@ This README describes the basic workflow for setting up and running molecular dy
 
 ## 1. Generate the Molecular Force Field
 
-Use **VeloxChem** to generate the `.gro` and `.itp` files for your molecule. See the `veloxchem/` folder for further information and examples.
-
-To activate the VeloxChem Conda environment:
-
-```bash
-conda activate vlxchem
-```
+Use **VeloxChem** to generate the `.gro` and `.itp` files for your molecule. See the `examples/molecular_dynamics/generate_FF_files` folder for further information and examples.
 
 ### Recommended workflow
 
@@ -29,7 +23,7 @@ The resulting scan can then be used with VeloxChem to **reparameterize the force
 For an example, see:
 
 ```text
-examples/molecular_dynamics/reparam_FF/
+examples/molecular_dynamics/reparam_FF
 ```
 
 ---
@@ -117,6 +111,8 @@ You will likely need to **manually adapt `step0_make_box.sh`** if you are simula
 For the production simulation, the script also generates the necessary **JOB file** for submitting the calculation to the cluster.
 
 Before submitting the job, check that the generated parameters and resource requirements are appropriate for your cluster setup.
+
+Finally, there is also a `sim_time.txt`that summarizes all the simulation time used.
 
 ---
 
