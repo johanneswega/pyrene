@@ -201,7 +201,9 @@ def plot_pmf(files,  colors, labels, sub, figsize=(6, 3.5), outside=True, ylim=F
         r = data[:,0]
         # convert from kJ/mol to eV
         w = data[:,1] * 0.01036
-        w -= sub[i]
+        #w -= sub[i]
+        w -= np.mean(w[-30:-1])
+        print(f'wmin = {np.min(w) : .3f} eV at r = {r[w==np.min(w)][0] : .3f} nm')
         ax.plot(r, w, '-', color=colors[i], label = labels[i])
     if ylim:
         ax.set_ylim(ylim)
@@ -209,8 +211,11 @@ def plot_pmf(files,  colors, labels, sub, figsize=(6, 3.5), outside=True, ylim=F
         ax.set_xlim(xlim)
     ax.set_ylabel(r'$w(r)$ / eV')
     ax.set_xlabel(r'$r_\text{com} / \text{nm}$')
+    if outside:
+        ax.legend(loc='center left', bbox_to_anchor=(1, 0.5), fontsize=10)
+    else:
+        ax.legend()
     fig.tight_layout()
-    ax.legend()
     if save!=None:
         fig.savefig(save, transparent=True)
     plt.show()

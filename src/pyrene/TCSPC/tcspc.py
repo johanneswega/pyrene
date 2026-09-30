@@ -116,7 +116,8 @@ class TCSPC(DataReader, Plotter, DataExporter):
             IRF_data /= np.max(IRF_data)
             IRF_data *= np.max(y)
             IRF_data[IRF_data<IRF_cleanup] = 0
-            ax[2].fill_between(x, 0, IRF_data, color='k', alpha=0.1, label=r'IRF')       
+            IRF_data = np.interp(x, x-x[IRF_data==np.max(IRF_data)], IRF_data)
+            ax[2].fill_between(x, IRF_data, color='k', alpha=0.1, label=r'IRF')       
 
         # get uncertainty
         sigma = np.sqrt(y)
@@ -143,8 +144,8 @@ class TCSPC(DataReader, Plotter, DataExporter):
 
         # save fit as .txt
         np.savetxt('%s_fit.txt'%self.files[file_index][:self.files[file_index].find('.')], 
-                   np.column_stack([x, model(x, *p)]),
-                   header='time delay / ns, fit / counts', delimiter=',')
+                   np.column_stack([x, model(x, *p), y, IRF_data]),
+                   header='time delay / ns, fit / counts, data / counts, IRF / counts', delimiter=',')
 
         # plot residuals
         res = (model(x, *p) - y)/sigma

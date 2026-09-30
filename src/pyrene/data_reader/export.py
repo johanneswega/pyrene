@@ -133,14 +133,12 @@ class DataExporter():
                 # export 2D map / contour 
                 if self.contour:
                     name = 'exported/' + self.files[i][:self.files[i].find('.')] + '/contour/'
-                    if self.wn:
-                        np.savetxt(name + 'wavelength.txt', 1e4/self.x[i], header='wavelength / nm')
+                    if self.IR:
+                        np.savetxt(name + 'wavenumber.txt', self.x[i], header='wavenumber / cm-1')
                     else:
                         np.savetxt(name + 'wavelength.txt', 1e4/self.x[i], header='wavelength / nm')
                     np.savetxt(name + 'time.txt', self.y[i], header=head_dt)
                     np.savetxt(name + 'TA.txt', self.z[i], header=head_dA)
                     print("exported TA contour")
                     
-                                                            
-
-        
+                            
