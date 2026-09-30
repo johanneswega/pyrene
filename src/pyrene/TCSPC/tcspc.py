@@ -143,9 +143,14 @@ class TCSPC(DataReader, Plotter, DataExporter):
         ax[2].plot(x, model(x, *p), '-r', linewidth=2, label='fit')
 
         # save fit as .txt
-        np.savetxt('%s_fit.txt'%self.files[file_index][:self.files[file_index].find('.')], 
-                   np.column_stack([x, model(x, *p), y, IRF_data]),
-                   header='time delay / ns, fit / counts, data / counts, IRF / counts', delimiter=',')
+        if IRF:
+            np.savetxt('%s_fit.txt'%self.files[file_index][:self.files[file_index].find('.')], 
+                    np.column_stack([x, model(x, *p), y, IRF_data]),
+                    header='time delay / ns, fit / counts, data / counts, IRF / counts', delimiter=',')
+        else:
+            np.savetxt('%s_fit.txt'%self.files[file_index][:self.files[file_index].find('.')], 
+                    np.column_stack([x, model(x, *p), y]),
+                    header='time delay / ns, fit / counts, data / counts', delimiter=',')            
 
         # plot residuals
         res = (model(x, *p) - y)/sigma
