@@ -121,7 +121,8 @@ class DataReader():
                 self.z[i] = dA
             ### for TCSPC data ###
             elif self.tcspc:
-                data = np.genfromtxt(self.files[i], skip_header=self.skiprows[i], delimiter=self.delimiter[i], skip_footer=self.skipfooter[i])
+                print(self.files[i], self.usecols[i], self.skiprows[i], self.delimiter[i])
+                data = np.genfromtxt(self.files[i], skip_header=self.skiprows[i], delimiter=self.delimiter[i], skip_footer=self.skipfooter[i], usecols=self.usecols[i])
                 self.x[i] = data[:,0]
                 self.y[i] = data[:,1]  
             ### CV data ### 

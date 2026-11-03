@@ -281,11 +281,16 @@ def find_phasematching_angle_typeII_eoe(wl1, n1o, n1e, wl2, n2o, wl3, n3o, n3e, 
         print('No phase matching angle found.')
         return np.nan, np.nan
 
-# calculate, ne(theta), ne'(theta), ne''(theta), vg(theta), gvd(theta)
-def angle_dependent_ne(wl_um, theta_deg, no, dno, d2no, ne, dne, d2ne):
-    c0 = sc.c
-    wl_m = wl_um * 1e-6
+# calculate ne(theta)
+def ne_theta(no, ne, theta_deg):
+    ct2 = np.cos(np.deg2rad(theta_deg))**2
+    st2 = 1 - ct2
+    Q = ct2/no**2 + st2/ne**2
+    ne_theta = Q**-0.5
+    return ne_theta
 
+# calculate, ne(theta), ne'(theta), ne''(theta), vg(theta), gvd(theta)
+def angle_dependent_ne(wl, theta_deg, no, dno, d2no, ne, dne, d2ne):
     ct2 = np.cos(np.deg2rad(theta_deg))**2
     st2 = 1 - ct2
 
@@ -297,12 +302,9 @@ def angle_dependent_ne(wl_um, theta_deg, no, dno, d2no, ne, dne, d2ne):
     dne_theta = -0.5 * Q**-1.5 * dQ
     d2ne_theta = 0.75 * Q**-2.5 * dQ**2 - 0.5 * Q**-1.5 * d2Q
 
-    ng = ne_theta - wl_um * dne_theta
-    vg = c0 / ng
-    vg_fs_mm = vg*1e-12
+    vg = Group_velocity(wl, ne_theta, dne_theta)
+    #ng = sc.c*1e-12/vg
+    gvd = GVD(wl, d2ne_theta)
 
-    # Convert d²n/dλ² from µm⁻² to m⁻²
-    beta2 = wl_m**3 / (2*np.pi*c0**2) * d2ne_theta * 1e12
-    gvd_fs2_mm = beta2 * 1e27
+    return ne_theta, dne_theta, d2ne_theta, vg, gvd
 
-    return ne_theta, dne_theta, d2ne_theta, vg_fs_mm, gvd_fs2_mm

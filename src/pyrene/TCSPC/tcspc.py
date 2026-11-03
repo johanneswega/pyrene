@@ -2,7 +2,7 @@ from pyrene.standard.packages import *
 from pyrene.data_reader.read import DataReader
 from pyrene.data_reader.export import DataExporter
 from pyrene.plotter.plotter import Plotter
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from scipy.signal import convolve as conv
 
 @dataclass
@@ -16,14 +16,16 @@ class TCSPC(DataReader, Plotter, DataExporter):
     # t_bg time before which to calculate bg
     t_bg : bool = False
 
+    # set standard read in arguments
+    delimiter: list = field(default_factory=lambda: [None])
+    skiprows: list = field(default_factory=lambda: [10])
+    skipfooter: list = field(default_factory=lambda: [2])
+
     # automatically call read_data method from parent datareader after init
     def __post_init__(self):
         self.experiment = 'nano'
         self.wn = False
         self.tcspc = True
-        self.delimiter = [None]
-        self.skiprows = [10]
-        self.skipfooter = [2]
         # temporary list used for fit normalization
         self.norm_value = []
 
