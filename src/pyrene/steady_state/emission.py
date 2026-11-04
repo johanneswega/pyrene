@@ -71,6 +71,49 @@ class Emission(DataReader, Plotter, DataExporter):
         else:
             return wns_em, n, er, fe, fn, df  
 
+    def calc_FluQY(self, file_ind_S, file_ind_R, A_S, A_R, phi_R, solvents):
+        """method to calculate fluorescence quantum yield based on the relative method
+        A_R, A_S : absorbances of reference and sample at their respective excitation wavelengths"""
+
+        # get refractive indices
+        from pyrene.standard.solvents import solvent_dic
+        n_S, n_R = solvent_dic[solvents[0]][0], solvent_dic[solvents[1]][0]
+        print(f'\n refractive indices at 25°C of \n nS ({solvents[0]}) = {n_S} \n nR ({solvents[1]}) = {n_R} \n')
+
+        # integrate fluorescence
+        I_S = np.trapezoid(self.y[file_ind_S], x=self.x[file_ind_S])
+        I_R = np.trapezoid(self.y[file_ind_R], x=self.x[file_ind_R])
+        print(I_S, I_R)
+
+        # calculate fluoresence quantum yield
+        fS = 1 - 10**(-A_S)
+        fR = 1 - 10**(-A_R)
+        phiQflu = phi_R * (fR/fS) * (I_S / I_R) * (n_S/n_R)**2
+
+        ### error estimation ### 
+        # take error in Aex as 0.002
+        errAex = 0.002
+        # take error in intensities as relative error of 2 % 
+        errint_S = 0.02*I_S
+        errint_R = 0.02*I_R
+        # take error in refractive indicies as 0.0002
+        errn = 0.0002
+        # take error in reference quantum yield as 2 % 
+        errphiR = 0.02
+
+        # partial derivatives
+        dphiR = 10**(-A_R + A_S)*I_S*n_S**2*(10**A_R - 1)/(I_R*n_R**2*(10**A_S - 1))
+        dI_S = 10**(-A_R + A_S)*n_S**2*phi_R*(10**A_R - 1)/(I_R*n_R**2*(10**A_S - 1))
+        dI_R = -10**(-A_R + A_S)*I_S*n_S**2*phi_R*(10**A_R - 1)/(I_R**2*n_R**2*(10**A_S - 1))
+        dA_R = 10**(-A_R + A_S)*I_S*n_S**2*phi_R*np.log(10)/(I_R*n_R**2*(10**A_S - 1))
+        dA_S = -10**(-A_R + A_S)*I_S*n_S**2*phi_R*(10**A_R - 1)*np.log(10)/(I_R*n_R**2*(10**A_S - 1)**2)
+        dn_S = 2*10**(-A_R + A_S)*I_S*n_S*phi_R*(10**A_R - 1)/(I_R*n_R**2*(10**A_S - 1))
+        dn_R = -2*10**(-A_R + A_S)*I_S*n_S**2*phi_R*(10**A_R - 1)/(I_R*n_R**3*(10**A_S - 1))
+
+        # calculate error 
+        errQflu = np.sqrt( (dphiR * errphiR)**2 + (dI_S * errint_S)**2 + (dI_R * errint_R)**2 + (dA_R * errAex)**2 + (dA_S * errAex)**2 + (dn_S * errn)**2 + (dn_R * errn)**2 )
+        print(f'\n Fluorescence Quantum Yield = ({phiQflu*100 : .3f} +- {errQflu*100 : .3f}) percent \n ({100*errQflu/phiQflu : .3f} perc. rel error)')
+
     def show(self):
         self.show_plot(self.ax)
         self.save_fig()

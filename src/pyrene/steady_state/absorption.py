@@ -103,6 +103,7 @@ class Absorption(DataReader, Plotter, DataExporter):
             print("")
             print("%s --> A = %.3g at wl = %.4g nm / wn = %.4g kK"%(self.files[file_index], Afound, wlfound, wnfound))
             print("")
+        return Afound
     
     def get_concentration(self, file_index) -> float:
         """ 
